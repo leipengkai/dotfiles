@@ -1,0 +1,454 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" load plugins from vundle
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+" call vundle#begin()
+call plug#begin('~/.vim/plugged')
+
+
+" let vundle manage vundle
+Plug 'VundleVim/Vundle.vim'
+
+" utilities
+Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
+Plug 'benmills/vimux'
+Plug 'tpope/vim-fugitive' " the ultimate git helper
+" Git integration
+Plug 'motemen/git-vim'
+Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
+
+" Class/module browser
+Plug 'majutsushi/tagbar'
+
+Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
+Plug 'Yggdroot/indentLine' " 缩进指示线
+Plug 'tell-k/vim-autopep8' " 自动格式化工具
+Plug 'Lokaltog/vim-powerline' " 用于美化状态栏
+Plug 'scrooloose/nerdcommenter' " 注释
+Plug 'nvie/vim-flake8' " 代码检查
+Plug 'Vimjas/vim-python-pep8-indent' " 自动缩进 
+
+" md相关插件
+" vim高亮显示Markdown语法
+Plug 'godlygeek/tabular'
+"vim即时预览
+Plug 'suan/vim-instant-Markdown'
+
+
+" colorschemes
+Plug 'chriskempson/base16-vim'
+
+" JavaScript plugins
+Plug 'pangloss/vim-javascript'
+Plug 'jelera/vim-javascript-syntax'
+
+" call vundle#end()
+call plug#end()
+filetype plugin indent on
+
+" Plug 'kien/ctrlp.vim' " fuzzy find files
+" $ cd ~/.vim
+" $ git clone https://github.com/kien/ctrlp.vim.git bundle/ctrlp.vim
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+set nocompatible " not compatible with vi
+set autoread " detect when a file is changed
+
+" make backspace behave in a sane manner
+set backspace=indent,eol,start
+
+" set a map leader for more key combos
+let mapleader = ','
+
+" Tab control
+set noexpandtab " tabs ftw
+set smarttab " tab respects 'tabstop', 'shiftwidth', and 'softtabstop'
+set tabstop=4 " the visible width of tabs
+set softtabstop=4 " edit as if the tabs are 4 characters wide
+set shiftwidth=4 " number of spaces to use for indent and unindent
+set shiftround " round indent to a multiple of 'shiftwidth'
+
+set clipboard=unnamed
+
+" faster redrawing
+set ttyfast
+
+" code folding settings
+set foldmethod=syntax " fold based on indent
+set foldnestmax=10 " deepest fold is 10 levels
+set nofoldenable " don't fold by default
+set foldlevel=1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => User Interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Searching
+set ignorecase " case insensitive searching
+set smartcase " case-sensitive if expresson contains a capital letter
+set hlsearch
+set incsearch " set incremental search, like modern browsers
+set nolazyredraw " don't redraw while executing macros
+
+set magic " Set magic on, for regex
+
+set showmatch " show matching braces
+set mat=2 " how many tenths of a second to blink
+
+" switch syntax highlighting on
+syntax on
+
+set encoding=utf8
+" let base16colorspace=256  " Access colors present in 256 colorspace"
+" set background=dark
+" colorscheme delek
+
+" 以Molokai为vim颜色主题
+" $ cd ~
+" $ git clone https://github.com/tomasr/molokai.git .vim
+let g:molokai_original = 1
+let g:rehash256 = 1
+
+set number
+
+set autoindent " automatically set indent of new line
+set smartindent
+
+
+set wildmode=list:longest
+set completeopt-=preview
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+map <leader>ev :e! ~/.vimrc<cr> " edit ~/.vimrc
+
+map <leader>wc :wincmd q<cr>
+
+" moving up and down work as you would expect
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+
+" helpers for dealing with other people's code
+nmap \t :set ts=4 sts=4 sw=4 noet<cr>
+nmap \s :set ts=4 sts=4 sw=4 et<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+map <C-h> :call WinMove('h')<cr>
+map <C-j> :call WinMove('j')<cr>
+map <C-k> :call WinMove('k')<cr>
+map <C-l> :call WinMove('l')<cr>
+
+" Window movement shortcuts
+" move to the window in the direction shown, or create a new window
+function! WinMove(key)
+    let t:curwin = winnr()
+    exec "wincmd ".a:key
+    if (t:curwin == winnr())
+        if (match(a:key,'[jk]'))
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec "wincmd ".a:key
+    endif
+endfunction
+
+" 运行测试
+map <F5> :Autopep8<CR> :w<CR> :call RunPython()<CR>
+function RunPython()
+    exec "w" 
+    if &filetype == 'c' 
+        exec "!g++ % -o %<" 
+        exec "!time ./%<" 
+    elseif &filetype == 'cpp' 
+        exec "!g++ % -o %<" 
+        exec "!time ./%<" 
+    elseif &filetype == 'java' 
+        exec "!javac %" 
+        exec "!time java %<" 
+    elseif &filetype == 'sh' 
+        :!time bash % 
+    elseif &filetype == 'python' 
+        exec "!time python2.7 %" 
+    elseif &filetype == 'html' 
+        exec "!firefox % &" 
+    elseif &filetype == 'go' 
+        " exec "!go build %<" 
+        exec "!time go run %" 
+    elseif &filetype == 'mkd' 
+        exec "!~/.vim/markdown.pl % > %.html &" 
+        exec "!firefox %.html &" 
+    endif
+endfunction
+
+
+
+setlocal foldmethod=expr
+setlocal foldexpr=GetPythonFold(v:lnum)
+setlocal foldtext=PythonFoldText()
+
+
+function! PythonFoldText()
+  let line = getline(v:foldstart)
+  let nnum = nextnonblank(v:foldstart + 1)
+  let nextline = getline(nnum)
+  if nextline =~ '^\s\+"""$'
+    let line = line . getline(nnum + 1)
+  elseif nextline =~ '^\s\+"""'
+    let line = line . ' ' . matchstr(nextline, '"""\zs.\{-}\ze\("""\)\?$')
+  elseif nextline =~ '^\s\+"[^"]\+"$'
+    let line = line . ' ' . matchstr(nextline, '"\zs.*\ze"')
+  elseif nextline =~ '^\s\+pass\s*$'
+    let line = line . ' pass'
+  endif
+  let size = 1 + v:foldend - v:foldstart
+  if size < 10
+    let size = " " . size
+  endif
+  if size < 100
+    let size = " " . size
+  endif
+  if size < 1000
+    let size = " " . size
+  endif
+  return size . " lines: " . line
+endfunction
+
+
+function! GetPythonFold(lnum)
+    " Determine folding level in Python source
+    "
+    let line = getline(a:lnum)
+    let ind  = indent(a:lnum)
+
+    " Ignore blank lines
+    if line =~ '^\s*$'
+        return "="
+    endif
+
+    " Ignore triple quoted strings
+    if line =~ "(\"\"\"|''')"
+        return "="
+    endif
+
+    " Ignore continuation lines
+    if line =~ '\\$'
+        return '='
+    endif
+
+    " Support markers
+    if line =~ '{{{'
+        return "a1"
+    elseif line =~ '}}}'
+        return "s1"
+    endif
+
+    " Classes and functions get their own folds
+    if line =~ '^\s*\(class\|def\)\s'
+        return ">" . (ind / &sw + 1)
+    endif
+
+    let pnum = prevnonblank(a:lnum - 1)
+
+    if pnum == 0
+    " Hit start of file
+        return 0
+    endif
+
+    " If the previous line has foldlevel zero, and we haven't increased
+    " it, we should have foldlevel zero also
+    if foldlevel(pnum) == 0
+        return 0
+    endif
+
+    " The end of a fold is determined through a difference in indentation
+    " between this line and the next.
+    " So first look for next line
+    let nnum = nextnonblank(a:lnum + 1)
+    if nnum == 0
+        return "="
+    endif
+
+    " First I check for some common cases where this algorithm would
+    " otherwise fail. (This is all a hack)
+    let nline = getline(nnum)
+    if nline =~ '^\s*\(except\|else\|elif\)'
+        return "="
+    endif
+
+    " Python programmers love their readable code, so they're usually
+    " going to have blank lines at the ends of functions or classes
+    " If the next line isn't blank, we probably don't need to end a fold
+    if nnum == a:lnum + 1
+        return "="
+    endif
+
+    " If next line has less indentation we end a fold.
+    " This ends folds that aren't there a lot of the time, and this sometimes
+    " confuses vim.  Luckily only rarely.
+    let nind = indent(nnum)
+    if nind < ind
+        return "<" . (nind / &sw + 1)
+    endif
+
+    " If none of the above apply, keep the indentation
+    return "="
+endfunction
+
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugin settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" map fuzzyfinder (CtrlP) plugin
+" nmap <silent> <leader>t :CtrlP<cr>
+nmap <silent> <leader>r :CtrlPBuffer<cr>
+let g:ctrlp_map='<leader>t'
+let g:ctrlp_dotfiles=1
+let g:ctrlp_working_path_mode = 'ra'
+
+" CtrlP ignore patterns
+let g:ctrlp_custom_ignore = {
+            \ 'dir': '\.git$\|node_modules$\|\.hg$\|\.svn$',
+            \ 'file': '\.exe$\|\.so$'
+            \ }
+
+" search the nearest ancestor that contains .git, .hg, .svn
+let g:ctrlp_working_path_mode = 2
+
+
+" NERDTree ----------------------------- 
+" toggle nerdtree display
+map <F3> :NERDTreeToggle<CR>
+" open nerdtree with the current file selected
+nmap ,t :NERDTreeFind<CR>
+" don;t show these file types
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.swp$']
+" modify size
+let NERDTreeWinSize=25
+" close NERDTree after a file is opened
+let g:NERDTreeQuitOnOpen=0
+" show hidden files in NERDTree
+let NERDTreeShowHidden=1
+" expand to the path of the file in the current buffer
+nmap <silent> <leader>y :NERDTreeFind<cr>
+
+
+" Tagbar ----------------------------- 
+" toggle tagbar display
+map <F4> :TagbarToggle<CR>
+" autofocus on tagbar open
+let g:tagbar_autofocus = 1
+
+
+" IndentLine ----------------------------
+let g:indentLine_char='┆'
+let g:indentLine_enabled = 1
+
+
+" vim-autopep8 --------------------------
+map <F8> :call FormartSrc()<CR>
+"define FormartSrc()
+func FormartSrc()
+    exec "w"
+    if &filetype == 'py'||&filetype == 'python'
+        exec "r !autopep8 -i --aggressive %"
+    endif
+    exec "e! %"
+endfunc
+"end FormartSrc
+let g:autopep8_disable_show_diff=1
+let g:autopep8_aggressive=2
+
+" powerline  --------------------------
+" $	pip3 install powerline-status
+set rtp+=/usr/local/lib/python3.5/dist-packages/powerline/bindings/vim/
+set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
+let g:Powerline_symbols = 'fancy' " unicode
+set laststatus=2 " show the satus line all the time
+let g:airline_powerline_fonts = 0
+let g:airline_theme = 'bubblegum'
+let g:airline#extensions#whitespace#enabled = 0
+
+
+" 注释符号
+" let mapleader='#'
+" 快捷键注释
+map  <leader>ci <CR>
+
+
+" 支持自动补全, 定义跳转, 按PEP8规范自动缩进
+let g:pymode_python = 'python3'
+autocmd VimEnter *.py python3 sys.path.append('.')
+autocmd BufWritePost *.py call Flake8()
+"using flake8 as a python syntax checker 
+let g:syntastic_python_checkers=['flake8']
+let g:syntastic_python_flake8_args='--ignore=E501,E225'
+let g:jedi#force_py_version=3
+let g:jedi#smart_auto_mappings = 0
+
+" youcompleteme ------------------------------
+" Plug 'Valloric/YouCompleteMe' 手动clone快点
+set runtimepath+=~/.vim/bundle/YouCompleteMe
+set completeopt=longest,menu	"让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif	"离开插入模式后自动关闭预览窗口
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"	"回车即选中当前项
+"上下左右键的行为 会显示其他信息
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+" 跳转到定义处
+nnoremap <c-j> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap <c-k> :YcmCompleter GoToDefinition<CR>            " 跳转到定义处
+
+nnoremap <F6> :YcmForceCompileAndDiagnostics<CR>	"force recomile with syntastic
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>           " 跳转到申明处
+" nnoremap <leader>lo :lopen<CR>	"open locationlist
+" nnoremap <leader>lc :lclose<CR>	"close locationlist
+inoremap <leader><leader> <C-x><C-o>
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+let g:ycm_server_python_interpreter='/usr/bin/python2'
+" 不显示开启vim时检查ycm_extra_conf文件的信息  
+let g:ycm_confirm_extra_conf=0
+" 开启基于tag的补全，可以在这之后添加需要的标签路径  
+let g:ycm_collect_identifiers_from_tags_files=1
+"注释和字符串中的文字也会被收入补全
+let g:ycm_collect_identifiers_from_comments_and_strings = 0
+" 输入第2个字符开始补全
+let g:ycm_min_num_of_chars_for_completion=2
+" 禁止缓存匹配项,每次都重新生成匹配项
+let g:ycm_cache_omnifunc=0
+" 开启语义补全
+let g:ycm_seed_identifiers_with_syntax=1	
+"在注释输入中也能补全
+let g:ycm_complete_in_comments = 1
+"在字符串输入中也能补全
+let g:ycm_complete_in_strings = 1
+" 设置在下面几种格式的文件上屏蔽ycm
+let g:ycm_filetype_blacklist = {
+	  \ 'tagbar' : 1,
+	  \ 'nerdtree' : 1,
+	  \}
+"youcompleteme  默认tab  s-tab 和 ultisnips 冲突
+let g:ycm_key_list_select_completion = ['<Down>']
+let g:ycm_key_list_previous_completion = ['<Up>']
+" 修改对C函数的补全快捷键，默认是CTRL + space，修改为ALT + ;
+let g:ycm_key_invoke_completion = '<M-;>'
+" SirVer/ultisnips 代码片断
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"定义存放代码片段的文件夹，使用自定义和默认的，将会的到全局，有冲突的会提示
+let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
+let g:UltiSnipsExpandTrigger       ="<c-tab>"
+let g:UltiSnipsJumpForwardTrigger  = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" Enable tabbing through list of results
