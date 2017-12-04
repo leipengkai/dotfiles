@@ -2,32 +2,65 @@
 # 终端复用工具[tmux](https://github.com/tmux/tmux)
 tmux采用C/S模型构建，输入tmux命令就相当于开启了一个服务器，此时默认将新建一个会话，然后会话中默认新建一个窗口，窗口中默认新建一个面板
 
-1. Session：会话，tmux使用会话管理不同任务，你可以创建用于work的会话、或者用于play的会话，随时可以切换不同的会话。
-2. Window：窗口，tmux会话可以包含多个窗口，每个窗口都是一个完整的终端。
-3. Pane：面板，窗口可以切分出任意数量、任意大小的面板，每个面板均是一个shell终端。
+1. Session:会话，tmux使用会话管理不同任务，你可以创建用于work的会话、或者用于play的会话，随时可以切换不同的会话。
+2. Window:窗口，tmux会话可以包含多个窗口，每个窗口都是一个完整的终端。
+3. Pane:面板，窗口可以切分出任意数量、任意大小的面板，每个面板均是一个shell终端。
 
 一个tmux session（会话）可以包含多个window（窗口），窗口默认充满会话界面，因此这些窗口中可以运行相关性不大的任务。
 一个window又可以包含多个pane（面板），窗口下的面板，都处于同一界面下，这些面板适合运行相关性高的任务，以便同时观察到它们的运行情况。
 
 
-## 安装tmux
-    sudo apt install tmux 
+## 安装tmux(脚本中已经安装)
+```bash
+    sudo apt install tmux xsel xclip
 
-## 安装插件
+	# 使得进入shell时，自动 挂载/启动 到tmux,在.bashrc文件在添加
+		tmux_init()
+		{
+			tmux new-session -s kumu -d -n local    # 开启一个会话
+			tmux new-window -n other          # 开启一个窗口
+			tmux split-window -h                # 开启一个竖屏
+			#tmux split-window -v top          # 开启一个横屏,并执行top命令
+			tmux select-window -t 1
+			tmux -2 attach-session -d           # tmux -2强制启用256color，连接已开启的tmux
+		}
+		# 判断是否已有开启的tmux会话，没有则开启
+		if which tmux 2>&1 >/dev/null; then
+			test -z $TMUX && (tmux attach || tmux_init)
+		fi
+	
+	# 为了在tmux环境中使用.bashrc的环境变量
+	# 在 .profile在加上
+	. ~/.bashrc
+```
+## 安装插件处理器[TPM](https://github.com/tmux-plugins/tpm)
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 ## tmux基本用法
-重新加载配置文件
+
+重新加载配置文件[~/tmux.conf](./tmux.conf)
 
     tmux source-file ~/.tmux.conf
-    在tmux窗口中，先按下Ctrl+b指令前缀，然后按下系统指令:
-    进入到命令模式后输入source-file ~/.tmux.conf，回车后生效
+    # 2. 在tmux环境中，<prefix>+r
+    # 3. 进入到命令模式后输入source-file ~/.tmux.conf，回车后生效
 进入tmux环境
 
     tmux 
-在tmux环境中 获取插件
+在tmux环境中 安装插件
 
     <prefix> + I
+	# 查看插件
+	ls ~/.tmux/plugins/
+
+在tmux环境中 升级所有插件
+
+	<prefix> + U
+
+在tmux环境中 升级所有插件
+
+	在~/.tmux.conf在注释掉对应的行
+	<prefix> + alt + u
+
 在tmux环境下,重新加载配置文件
 
     <prefix> + r
@@ -92,9 +125,28 @@ tmux采用C/S模型构建，输入tmux命令就相当于开启了一个服务器
     prefix q	显示面板编号
     prefix o	选择当前窗口中下一个面板
     prefix 方向键	移动光标选择对应面板
-    prefix {	向前置换当前面板
+    prefix {	向前置换当前面板  
     prefix }	向后置换当前面板
     prefix Alt+o	逆时针旋转当前窗口的面板
     prefix Ctrl+o	顺时针旋转当前窗口的面板
     prefix z	tmux 1.8新特性，最大化当前所在面板,再重复一次按键后恢复正常
     prefix ;   切换到最后一次使用的面板   
+
+	# tmux之间的复制
+	# $ sudo apt-get install xsel xclip
+	prefix [ 进入选择模式
+	点击v键进入vi-mode选择模式,VIM的移动命令进行选择
+	选择完毕后用y复制到tmux剪贴板
+	prefix ] 复制到光标所在位置
+	q 退出
+
+### 使用插件[tmux-yank](https://github.com/tmux-plugins/tmux-yank)
+
+	普通模式下:
+	<prefix> + y #把当前命令行的内容拷到剪切板（支持bash,zsh,python解释器；稍加配置还支持vim命令栏）
+	<prefix> + Y #把当前面板的路径拷到剪切板
+	选择模式下:
+
+	y # 把当前选中的内容拷到剪切板
+	Y # 把当前选中的内容拷到剪切板，然后再粘到命令行（退出tmux选择模式后会看到zsh提示符后已经粘好内容了，直接敲回车就可以执行）
+	# 本人使用的时候有bug,所以没有安装

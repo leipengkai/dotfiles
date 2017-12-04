@@ -21,6 +21,19 @@
     sudo apt-get install -y python-flake8 python3-flake8 
 		\flake python-autopep8 python3-jedi exuberant-ctags
 ```
+- 美化Vim状态栏(脚本中已安装)
+```bash 
+	pip3 install powerline-status autopep8 
+	# 在.vimrc设置安装路径
+	set rtp+=/usr/local/lib/python3.5/dist-packages/powerline/bindings/vim/
+
+	#在 .bashrc中加上 使在bash也有了美化
+	export TERM="screen-256color"
+	. /usr/local/lib/python3.5/dist-packages/powerline/bindings/bash/powerline.sh
+	
+	# 因为有可能使用的安装版本pip不同,可能路径不一致,所以特意指出 
+
+```
 - YouCompleteMe插件的依赖包[ llvm](http://releases.llvm.org/download.html)	
 ```bash 
 	sudo apt-get install -y  build-essential cmake python-dev python3-dev
@@ -91,23 +104,38 @@
 
 	# 安装 YouCompleteMe 
 	cd ~/.vim/bundle/YouCompleteMe
+
+	# 在编译之前修改对应的python版本
+	which python3
+	# /home/femn/anaconda3/bin/python3
+	vim install.sh 
+		改变python解释器对应的版本,我将python2改成了python3
+		# Found Python library: /home/femn/anaconda3/lib/libpython3.6m.so
+		# 默认python2是/usr/lib/python2.7/config-x86_64-linux-gnu/libpython2.7.so
+
+	# 编译 ycm_core
 	./install.sh --clang-completer --gocode-completer
+
 
 	# 配置.ycm_extra_conf.py文件
 	cp ~/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py ~/.vim/
+	# 再添加.vimrc配置 
+	# 注意下面的 python 解释器的路径要和编译 ycm_core 的时候使用的 python 解释器是相同的版本（2 或 3）
+	let g:ycm_server_python_interpreter='/home/femn/anaconda3/bin/python3'
+	let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'"
 
 ```
-- 其它插件的安装
+- 其它插件的安装[~/.vimrc](./vimrc)
 ```bash 
-    # mv vimrc ~/.vimrc
+	# mv vimrc ~/.vimrc
 	# 将.vimrc配置好之后
-    sudo vim +PlugInstall +qall
+	sudo vim +PlugInstall +qall
 	# 此时的~/.vim/目录下就已经安装好所有的插件了.
 ```
 - 查看 YouCompleteMe是否安装成功
 ```bash 
 	# vim 中运行任何一个都行
-    :YcmToggleLogs stderr
+	:YcmToggleLogs stderr
 	:YcmDiags
 ```
 #### 一些常用的基本操作(vim命令下)
@@ -120,6 +148,9 @@
     ctrl+/ # 注释代码
     F5 # 运行测试
     :help :Git (Plug 'tpope/vim-fugitive') # 查看Git 集成命令
+	# 调整窗口大小启动/停用鼠标
+	:set mouse=a
+	:set mouse-=a
 
     zo 展开
     zc 收到

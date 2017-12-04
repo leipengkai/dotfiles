@@ -7,8 +7,8 @@
 	sudo su root && ./install_client.sh
 	# 安装完成后,切换到普通用户,完成配置
 	source ~/.profile
-	git config --global user.name "leipengkai"
-	git config --global user.email "leipengkai@gmail.com"
+	git config --global user.name "注册名字"
+	git config --global user.email "注册邮箱"
 	usermod -aG docker $(whoami)
 	service docker start
 ```
@@ -28,6 +28,8 @@
   - **Proxychains4**: [https://github.com/rofl0r/proxychains-ng](https://github.com/rofl0r/proxychains-ng)
   - **Virtualbox5.1.28**: [http://download.virtualbox.org/virtualbox/5.1.28](http://download.virtualbox.org/virtualbox/5.1.28/virtualbox-5.1_5.1.28-117968~Ubuntu~xenial_amd64.deb)
   - **NodeJs**: [https://nodejs.org/en/download/current/](https://nodejs.org/en/download/current/)
+  - **ChromeDriver**: [https://sites.google.com/a/chromium.org/chromedriver/downloads](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+  - **phantomjs**: [http://phantomjs.org/download.html](http://phantomjs.org/download.html)
 - 选择性手动下载的
 
   - **telegram**: [https://telegram.org/](https://telegram.org/)

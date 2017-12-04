@@ -20,11 +20,31 @@ apt-get upgrade -y
 
 PIP_3= `which pip3`
 if [ -z "PIP_3" ];then
-	apt install -y python3-pip curl
+	apt install -y python3-pip curl tmux xsel xclip
 	# 配置Bash使用powerline
-	pip3 install powerline-status
+	pip3 install powerline-status autopep8
 	echo ". /usr/local/lib/python3.5/dist-packages/powerline/bindings/bash/powerline.sh" >> ~/.bashrc
+	
+	# 使得进入shell时，自动 挂载/启动 到tmux,在.bashrc文件在添加
+	echo "tmux_init()\n\
+	{\n\
+		tmux new-session -s "kumu" -d -n "local"    # 开启一个会话\n\
+		tmux new-window -n "other"          # 开启一个窗口\n\
+		tmux split-window -h                # 开启一个竖屏\n\
+	#	tmux split-window -v "top"          # 开启一个横屏,并执行top命令\n\
+		tmux select-window -t 1\n\
+		tmux -2 attach-session -d           # tmux -2强制启用256color，连接已开启的tmux\n\
+	}\n\
+
+	# 判断是否已有开启的tmux会话，没有则开启\n\
+	if which tmux 2>&1 >/dev/null; then\n\
+		test -z "$TMUX" && (tmux attach || tmux_init)\n\
+	fi"\
+	>> ~/.bashrc
+
 	. ~/.bashrc 
+	# 加载.bashrc的环境变量
+	ehco ". ~/.bashrc" >> ~/.profile
 	# 安装Powerline字体
 	wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
 	wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
@@ -187,7 +207,8 @@ if [ -z "$PROXYCHAINS" ];then
     cd .. && rm -rf proxychains-ng
     # sed -i -e '/^socks/d' /etc/proxychains.conf
     # echo "socks5  127.0.0.1   1081" >> /etc/proxychains.conf
-    echo -e "strict_chain\n\
+	# 换行插入已经不需要 -e参数了
+    echo "strict_chain\n\
         proxy_dns\n\
         remote_dns_subnet 224\n\
         tcp_read_time_out 15000\n\
@@ -226,6 +247,21 @@ if [ -z "NODEJS" ];then
 	npm -g install instant-markdown-d
 fi
 
+# 
+CHROMEDRIVER=`whice chromedriver`
+if [ -z "CHROMEDRIVER" ];then 
+	wget http://chromedriver.storage.googleapis.com/2.26/chromedriver_linux64.zip
+	unzip chromedriver_linux64.zip
+	chmod +x chromedriver
+	mv -f chromedriver /usr/local/share/chromedriver
+	ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+	ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
+
+	wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
+	tar xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2
+	sudo mv  phantomjs-2.1.1-linux-x86_64 /usr/local/share
+	sudo ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
+fi
 echo 'success'
 # run for common user 
 

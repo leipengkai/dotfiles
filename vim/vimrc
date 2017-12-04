@@ -27,6 +27,7 @@ Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
 Plug 'Yggdroot/indentLine' " 缩进指示线
 Plug 'tell-k/vim-autopep8' " 自动格式化工具
+" pip install autopep9 对应python版本必须要有这个模块,不然中文执行会报错
 Plug 'Lokaltog/vim-powerline' " 用于美化状态栏
 Plug 'scrooloose/nerdcommenter' " 注释
 Plug 'nvie/vim-flake8' " 代码检查
@@ -38,6 +39,8 @@ Plug 'godlygeek/tabular'
 "vim即时预览
 Plug 'suan/vim-instant-Markdown'
 
+" 自动补全 单引号，双引号等
+Plug 'Raimondi/delimitMate'
 
 " colorschemes
 Plug 'chriskempson/base16-vim'
@@ -112,6 +115,8 @@ set encoding=utf8
 " $ git clone https://github.com/tomasr/molokai.git .vim
 let g:molokai_original = 1
 let g:rehash256 = 1
+" 默认的python解释器
+let g:syntastic_python_python_exec = 'python3' 
 
 set number
 
@@ -177,7 +182,7 @@ function RunPython()
     elseif &filetype == 'sh' 
         :!time bash % 
     elseif &filetype == 'python' 
-        exec "!time python2.7 %" 
+        exec "!time python3 %" 
     elseif &filetype == 'html' 
         exec "!firefox % &" 
     elseif &filetype == 'go' 
@@ -380,7 +385,7 @@ let g:airline#extensions#whitespace#enabled = 0
 
 
 " 注释符号
-" let mapleader='#'
+"let mapleader='#'
 " 快捷键注释
 map  <leader>ci <CR>
 
@@ -394,6 +399,11 @@ let g:syntastic_python_checkers=['flake8']
 let g:syntastic_python_flake8_args='--ignore=E501,E225'
 let g:jedi#force_py_version=3
 let g:jedi#smart_auto_mappings = 0
+
+" for python docstring ", 自动补全
+au FileType python let b:delimitMate_nesting_quotes = ['"']
+" 关闭某些类型文件的自动补全
+"au FileType mail let b:delimitMate_autoclose = 0
 
 " youcompleteme ------------------------------
 " Plug 'Valloric/YouCompleteMe' 手动clone快点
@@ -416,7 +426,7 @@ nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>           " 跳转到申�
 " nnoremap <leader>lc :lclose<CR>	"close locationlist
 inoremap <leader><leader> <C-x><C-o>
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-let g:ycm_server_python_interpreter='/usr/bin/python2'
+let g:ycm_server_python_interpreter='/home/femn/anaconda3/bin/python3'
 " 不显示开启vim时检查ycm_extra_conf文件的信息  
 let g:ycm_confirm_extra_conf=0
 " 开启基于tag的补全，可以在这之后添加需要的标签路径  
