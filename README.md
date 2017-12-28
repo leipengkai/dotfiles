@@ -17,19 +17,21 @@
 ### General 
 - 脚本中已经安装
 
-  - **Nginx**: [https://nginx.org/en/download.html](https://nginx.org/en/download.html) 
-  - **Chrome**: [https://www.google.com/chrome/index.html](https://www.google.com/chrome/index.html) 
-  - **Git**: [https://git-scm.com/downloads](https://git-scm.com/downloads)
-  - **Docker**: [https://www.docker.com/](https://www.docker.com/)
-  - **shadowsocks**: [https://shadowsocks.org/en/download/clients.html](https://shadowsocks.org/en/download/clients.html)
-  - **MySql**: [https://www.mysql.com/](https://www.mysql.com/)
-  - **Redis4.0.1**: [https://redis.io/](https://redis.io/)
-  - **mongodb**: [https://www.mongodb.com/](https://www.mongodb.com/)
-  - **Proxychains4**: [https://github.com/rofl0r/proxychains-ng](https://github.com/rofl0r/proxychains-ng)
-  - **Virtualbox5.1.28**: [http://download.virtualbox.org/virtualbox/5.1.28](http://download.virtualbox.org/virtualbox/5.1.28/virtualbox-5.1_5.1.28-117968~Ubuntu~xenial_amd64.deb)
-  - **NodeJs**: [https://nodejs.org/en/download/current/](https://nodejs.org/en/download/current/)
-  - **ChromeDriver**: [https://sites.google.com/a/chromium.org/chromedriver/downloads](https://sites.google.com/a/chromium.org/chromedriver/downloads)
-  - **phantomjs**: [http://phantomjs.org/download.html](http://phantomjs.org/download.html)
+  - **Nginx**: [https://nginx.org/en/download.html](https://nginx.org/en/download.html) nginx -V
+  - **Chrome**: [https://www.google.com/chrome/index.html](https://www.google.com/chrome/index.html)  which chromium-browser
+  - **Git**: [https://git-scm.com/downloads](https://git-scm.com/downloads) git --version
+  - **Docker**: [https://www.docker.com/](https://www.docker.com/) docker -v
+  - **shadowsocks**: [https://shadowsocks.org/en/download/clients.html](https://shadowsocks.org/en/download/clients.html) ss-qt5 -v
+  - **MySql**: [https://www.mysql.com/](https://www.mysql.com/) mysql --version
+  - **Redis4.0.1**: [https://redis.io/](https://redis.io/) redis-server -v
+  - **Redis GUI0.8.3**:[https://redisdesktop.com/](https://redisdesktop.com/) which redis-desktop-manager
+  - **mongodb**: [https://www.mongodb.com/](https://www.mongodb.com/) mongod --version
+  - **Proxychains4**: [https://github.com/rofl0r/proxychains-ng](https://github.com/rofl0r/proxychains-ng) proxychains4 curl ip.gs
+  - **Virtualbox5.1.28**: [http://download.virtualbox.org/virtualbox/5.1.28](http://download.virtualbox.org/virtualbox/5.1.28/virtualbox-5.1_5.1.28-117968~Ubuntu~xenial_amd64.deb) which virtualbox 
+  - **NodeJs**: [https://nodejs.org/en/download/current/](https://nodejs.org/en/download/current/) nodejs --version
+  - **ChromeDriver**: [https://sites.google.com/a/chromium.org/chromedriver/downloads](https://sites.google.com/a/chromium.org/chromedriver/downloads) chromedriver --version
+  - **phantomjs**: [http://phantomjs.org/download.html](http://phantomjs.org/download.html) phantomjs --version
+
 - 选择性手动下载的
 
   - **telegram**: [https://telegram.org/](https://telegram.org/)

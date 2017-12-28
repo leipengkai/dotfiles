@@ -26,21 +26,26 @@ if [ -z "PIP_3" ];then
 	echo ". /usr/local/lib/python3.5/dist-packages/powerline/bindings/bash/powerline.sh" >> ~/.bashrc
 	
 	# 使得进入shell时，自动 挂载/启动 到tmux,在.bashrc文件在添加
-	echo "tmux_init()\n\
-	{\n\
-		tmux new-session -s "kumu" -d -n "local"    # 开启一个会话\n\
-		tmux new-window -n "other"          # 开启一个窗口\n\
-		tmux split-window -h                # 开启一个竖屏\n\
-	#	tmux split-window -v "top"          # 开启一个横屏,并执行top命令\n\
-		tmux select-window -t 1\n\
-		tmux -2 attach-session -d           # tmux -2强制启用256color，连接已开启的tmux\n\
-	}\n\
+	#echo "tmux_init()\n\
+	#{\n\
+		#tmux new-session -s "kumu" -d -n "local"    # 开启一个会话\n\
+		#tmux new-window -n "other"          # 开启一个窗口\n\
+		#tmux split-window -h                # 开启一个竖屏\n\
+	##	tmux split-window -v "top"          # 开启一个横屏,并执行top命令\n\
+		#tmux select-window -t 1\n\
+		#tmux -2 attach-session -d           # tmux -2强制启用256color，连接已开启的tmux\n\
+	#}\n\
+#
+	## 判断是否已有开启的tmux会话，没有则开启\n\
+	#if which tmux 2>&1 >/dev/null; then\n\
+		#test -z "$TMUX" && (tmux attach || tmux_init)\n\
+	#fi"\
+	#>> ~/.bashrc
 
-	# 判断是否已有开启的tmux会话，没有则开启\n\
-	if which tmux 2>&1 >/dev/null; then\n\
-		test -z "$TMUX" && (tmux attach || tmux_init)\n\
-	fi"\
-	>> ~/.bashrc
+	# 在命令行设置全局的代理
+	# echo "export http_proxy=socks5://127.0.0.1:1081\n\
+	# export http_proxy=socks5://127.0.0.1:1081"\
+	# >> ~/.bashrc
 
 	. ~/.bashrc 
 	# 加载.bashrc的环境变量
@@ -134,6 +139,15 @@ fi
 # ~/.config/shadowsocks-qt5/
 # /usr/bin/ss-qt5
 
+# SSR=`which ssr`
+# if [ -z "$SSR" ];then
+	# wget http://www.djangoz.com/ssr
+	# sudo mv ssr /usr/local/bin
+	# sudo chmod 766 /usr/local/bin/ssr
+	# ssr install 
+	# #ssr start 
+# fi
+
 # install mysql
 MYSQL=`which mysql`
 if [ -z "$MYSQL" ];then
@@ -181,6 +195,10 @@ if [ -z "$user_redis" ];then
     # make -C /usr/local/redis-4.0.1 
     # make -C /usr/local/redis-4.0.1/src install
     # rm -rf redis-4.0.1.tar.gz
+
+	#桌面客户端
+	wget https://github.com/uglide/RedisDesktopManager/releases/download/0.8.3/redis-desktop-manager_0.8.3-120_amd64.deb
+	dpkg -i redis-desktop-manager_0.8.3-120_amd64.deb
 fi
 
 
@@ -284,8 +302,73 @@ echo 'success'
 # ./install 
 # packettracer
 
+
+#sudo vim /etc/apt/sources.list
+	#deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free
+#sudo vim /etc/resolv.conf 
+	#nameserver 8.8.8.8
+#sudo service networking restart
+#proxychains4 wget -qO - https://linux-packages.resilio.com/resilio-sync/key.asc | sudo apt-key add -
+#
+#sudo proxychains4 apt-get update
+#sudo apt-get -f install 
+#sudo proxychains4 apt-get install resilio-sync
+#sudo systemctl enable resilio-sync 
+#sudo service resilio-sync start 
+# 会有rslsync这个用户,让femn这个用户也能使用此目录
+# sudo setfacl -m u:femn:rwx /home/rslsync/
+
+# 推荐用这种方法 +systemctl开机自启动 root权限
 # https://www.resilio.com/individuals/
 # 解压包之后直接运行
 # ./rslsync 
 # http://127.0.0.1:8888/gui/
+# sudo vim /lib/systemd/system/rslsync.service
+# 
+	# [Unit]
+	# Description=rslsync 
+	# After=network.target
+	# 
+	# [Service]
+	# Type=forking
+	# ExecStart=/home/femn/resilio-sync_glibc23_x64/rslsync
+	# 
+	# [Install]
+	# WantedBy=multi-user.target
+# sudo chmod 754 /lib/systemd/system/rslsync.service
+# sudo systemctl start rslsync.service
+# sudo systemctl enable rslsync.service
+
+
+# 下载器
+#wget http://download.ap.bittorrent.com/track/beta/endpoint/utserver/os/linux-x64-ubuntu-13-04 -O utserver.tar.gz 
+#sudo tar xvf utserver.tar.gz -C /opt/ 
+#sudo apt install libssl1.0.0 libssl-dev 
+#sudo ln -s /opt/utorrent-server-alpha-v3_3/utserver /usr/bin/utserver 
+#utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &
+#localhost:8080/gui
+#sudo pkill utserver
+#vim /etc/systemd/system/utserver.service
+	#[Unit]
+	#Description=uTorrent Server
+	#After=network.target
+#
+	#[Service]
+	#Type=simple
+	#User=utorrent
+	#Group=utorrent
+	#ExecStart=/usr/bin/utserver -settingspath /opt/utorrent-server-alpha-v3_3/ &
+	#ExecStop=/usr/bin/pkill utserver
+	#Restart=always
+	#SyslogIdentifier=uTorrent Server
+#
+	#[Install]
+	#WantedBy=multi-user.target
+#sudo systemctl daemon-reload 
+#sudo adduser --system --no-create-home utorrent
+#
+#sudo addgroup --system utorrent 
+#sudo adduser utorrent utorrent
+
+# sudo apt install python3-pyqt5 python3-setproctitle python3-psutil aria2
 
