@@ -38,14 +38,16 @@ tmux采用C/S模型构建，输入tmux命令就相当于开启了一个服务器
 
 ## tmux基本用法
 
-重新加载配置文件[~/tmux.conf](./tmux.conf)
-
-    tmux source-file ~/.tmux.conf
-    # 2. 在tmux环境中，<prefix>+r
-    # 3. 进入到命令模式后输入source-file ~/.tmux.conf，回车后生效
 进入tmux环境
 
     tmux 
+
+重新加载配置文件[~/tmux.conf](./tmux.conf)
+
+    tmux source-file ~/.tmux.conf
+    # <prefix>+r
+    # 3. 进入到命令模式后输入source-file ~/.tmux.conf，回车后生效
+
 在tmux环境中 安装插件
 
     <prefix> + I

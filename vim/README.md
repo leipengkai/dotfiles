@@ -115,6 +115,7 @@
 
 	# 编译 ycm_core
 	./install.sh --clang-completer --gocode-completer
+	# ERROR: go is required to build gocode.  but OK!
 
 
 	# 配置.ycm_extra_conf.py文件

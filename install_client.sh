@@ -18,9 +18,9 @@ fi
 apt-get update -y
 apt-get upgrade -y
 
-PIP_3= `which pip3`
-if [ -z "PIP_3" ];then
-	apt install -y python3-pip curl tmux xsel xclip
+PIP=`which pip3`
+if [ -z "$PIP" ];then
+	apt-get install  -y python3-pip curl tmux xsel xclip vim
 	# 配置Bash使用powerline
 	pip3 install powerline-status autopep8
 	echo ". /usr/local/lib/python3.5/dist-packages/powerline/bindings/bash/powerline.sh" >> ~/.bashrc
@@ -35,7 +35,6 @@ if [ -z "PIP_3" ];then
 		#tmux select-window -t 1\n\
 		#tmux -2 attach-session -d           # tmux -2强制启用256color，连接已开启的tmux\n\
 	#}\n\
-#
 	## 判断是否已有开启的tmux会话，没有则开启\n\
 	#if which tmux 2>&1 >/dev/null; then\n\
 		#test -z "$TMUX" && (tmux attach || tmux_init)\n\
@@ -71,7 +70,7 @@ if [ -z "$NGINX" ];then
     # 看到编译选项 nginx -V
 fi
 
-WBPY=`apt-cache search fcitx-table-wbpy`
+WBPY=`which ctags`
 if [ -z "$WBPY" ];then
     apt-get install -y fcitx-table-wbpy wkhtmltopdf kolourpaint4 tree exuberant-ctags 
 
@@ -160,47 +159,44 @@ fi
 # /usr/bin/mysql
 
 # install redis
-# REDIS=`which redis-server`
+REDIS=`which redis-server`
 # if [ ! -d "/usr/local/redis" ];then
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04
-user_redis=`cat /etc/passwd|grep redis|awk -F : '{print $1}'`
-if [ -z "$user_redis" ];then
-    # useradd -s /bin/false -M redis
-    cd /tmp
-    wget -O redis.tar.gz \
-        http://download.redis.io/releases/redis-4.0.1.tar.gz
-    tar -zxvf redis.tar.gz
-    cd redis && make
-    cd src && make install
-    # reids.conf
-    mkdir /etc/redis && cp /tmp/redis/redis.conf /etc/redis
-    adduser --system --group --no-create-home redis
+# user_redis=`cat /etc/passwd|grep redis|awk -F : '{print $1}'`
+if [ -z "$REDIS" ];then
+    # # useradd -s /bin/false -M redis
+    # cd /tmp
+    # wget -O redis.tar.gz \
+        # http://download.redis.io/releases/redis-4.0.1.tar.gz
+    # tar -zxvf redis.tar.gz
+    # cd redis && make
+    # cd src && make install
+    # # reids.conf
+    # mkdir /etc/redis && cp /tmp/redis/redis.conf /etc/redis
+    # adduser --system --group --no-create-home redis
+	apt install -y redis-server redis-tools
 
-    # 只要是编译安装了,就自动在 
-    # /usr/local/bin/redis-cli
-
-    # sudo apt-get install -y redis-server
-    # vim /etc/redis/redis.conf
-    # # bind 127.0.0.1 #远程可以访问redis，不然就只能本地访问
-    # requirepass passwd # 设置密码
-
-
-    # 不用再去导入命令了
-    # systemd unit file so that the init system can manage the Redis process
-    # vim /etc/systemd/system/redis.service
-
-    # 不推荐使用
-    # mkdir -p /usr/local/redis
-    # tar -zxvf redis-4.0.1.tar.gz -C /usr/local
-    # make -C /usr/local/redis-4.0.1 
-    # make -C /usr/local/redis-4.0.1/src install
-    # rm -rf redis-4.0.1.tar.gz
-
-	#桌面客户端
-	wget https://github.com/uglide/RedisDesktopManager/releases/download/0.8.3/redis-desktop-manager_0.8.3-120_amd64.deb
-	dpkg -i redis-desktop-manager_0.8.3-120_amd64.deb
 fi
 
+# 只要是编译安装了,就自动在 
+# /usr/local/bin/redis-cli
+
+# sudo apt-get install -y redis-server
+# vim /etc/redis/redis.conf
+# # bind 127.0.0.1 #远程可以访问redis，不然就只能本地访问
+# requirepass passwd # 设置密码
+
+
+# 不用再去导入命令了
+# systemd unit file so that the init system can manage the Redis process
+# vim /etc/systemd/system/redis.service
+
+# 不推荐使用
+# mkdir -p /usr/local/redis
+# tar -zxvf redis-4.0.1.tar.gz -C /usr/local
+# make -C /usr/local/redis-4.0.1 
+# make -C /usr/local/redis-4.0.1/src install
+# rm -rf redis-4.0.1.tar.gz
 
 
 # install mongodb
@@ -255,19 +251,19 @@ fi
 
 # vim编辑markdown时实现预览功能,但vim-instant-markdown安装之前需要依赖nodejs服务器
 NODEJS=`which nodejs`
-if [ -z "NODEJS" ];then
+if [ -z "$NODEJS" ];then
 	add-apt-repository ppa:chris-lea/node.js
 	apt-get update  # 则会有下面的sources
 	# vim /etc/apt/sources.list.d/chris-lea-ubuntu-node_js-xenial.list
 		# deb http://ppa.launchpad.net/chris-lea/node.js/ubuntu xenial main  
-	apt-get install nodejs
-	apt-get install npm
+	apt-get install -y nodejs
+	apt-get install -y npm
 	npm -g install instant-markdown-d
 fi
 
 # 
-CHROMEDRIVER=`whice chromedriver`
-if [ -z "CHROMEDRIVER" ];then 
+CHROMEDRIVER=`which chromedriver`
+if [ -z "$CHROMEDRIVER" ];then 
 	wget http://chromedriver.storage.googleapis.com/2.26/chromedriver_linux64.zip
 	unzip chromedriver_linux64.zip
 	chmod +x chromedriver
@@ -286,22 +282,18 @@ echo 'success'
 # source ~/.profile
 # git config --global user.name "leipengkai"
 # git config --global user.email "leipengkai@gmail.com"
-# usermod -aG docker $(whoami)
-# service docker start
+# sudo usermod -aG docker $(whoami)
+# sudo service docker start
 
-# proxychains4 wget -O telegram.tar.xz https://telegram.org/dl/desktop/linux
+
+#redis桌面客户端 CLI install too slow
+# wget https://github.com/uglide/RedisDesktopManager/releases/download/0.8.3/redis-desktop-manager_0.8.3-120_amd64.deb
+# dpkg -i redis-desktop-manager_0.8.3-120_amd64.deb
 
 # 安装好Anaconda之后，可以用conda install numpy来管理python包,就像pip一样 同时届有notebook: jupyter notebook --ip=127.0.0.1
 # https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/ 下载
 # sh xx.sh
 # 同时也可以在pychome中也可以用jupyter notebook格式的文件了
-
-
-# 安装 Packet tracer https://www.itechtics.com
-# tar 之后 运行
-# ./install 
-# packettracer
-
 
 #sudo vim /etc/apt/sources.list
 	#deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free
@@ -338,6 +330,14 @@ echo 'success'
 # sudo chmod 754 /lib/systemd/system/rslsync.service
 # sudo systemctl start rslsync.service
 # sudo systemctl enable rslsync.service
+
+
+# proxychains4 wget -O telegram.tar.xz https://telegram.org/dl/desktop/linux
+
+# 安装 Packet tracer https://www.itechtics.com
+# tar 之后 运行
+# ./install 
+# packettracer
 
 
 # 下载器
