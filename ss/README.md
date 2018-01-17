@@ -46,6 +46,10 @@
 ```
 
 - ### [shadowsocks 官网](https://shadowsocks.org/en/download/clients.html)
+
+	Windows、Linux、macOS、Android 
+
+	代理端口 : SOCKS5:1080
   - 需要自己搭建VPS,方法如下 [这个是我大哥自己搭建的一些ss帐号](https://github.com/TestSmirk/ss-ip)
 
 	[server_centos7 install shadowsocks](https://www.loyalsoldier.me/fuck-the-gfw-with-my-own-shadowsocks-server/)
@@ -129,7 +133,7 @@ http://pac.ddcc.me/1.pac == local.pac
 
 在国际里云购买的ESC,配置好shadowsocks之后,在手机上能正常使用,也不需要去设置代理,但在Ubuntu桌面下却一直用不了
 
-- ### 推荐安装[SSR](https://github.com/shadowsocksrr/shadowsocksr)是SS的高级版本
+- ### 安装[SSR](https://github.com/shadowsocksrr/shadowsocksr)是SS的高级版本,速度比SS慢,推荐在SS不能使用的情况下用SSR
 
 [server端](https://dcamero.azurewebsites.net/shadowsocksr.html)
 ```bash
@@ -152,6 +156,42 @@ cd ~/electron-ssr-0.1.2
 ./electron-ssr
 # 路径为:/home/femn/shadowsocksr/shadowsocks/local.py
 # 版本为Python 3.6.3 :: Anaconda, Inc.
+# 同时需要注意的是network的设置为Manual,只需要填写SOCKS HOST就可以了,不需要填写其它协议的代理
+# 推荐使用Automatic会快点,同时也是局部代理
+
+# 在加到7个服务器时,再想加时,就会报错了
+# 如果当用GUI编辑服务器有问题时 就删除如下文件
+# /home/femn/.config/electron-ssr/shadowsocksr.json
+# 再重新启动 ./electron-ssr
+
+# 同时还需要注意的是:当图标上已经没有勾选服务器时,或者点退出按钮或在命令行中ctrl+c其实也是连接上的
+# 也会影响到其它代理工具的速度, 可用kill 进程来处理
+```
+同时我们也可以手动启动
+```bash
+sudo vim /etc/shadowsockssr.json
+	{
+	"server":"216.189.158.147",
+	"server_port":5943,
+	"local_address":"127.0.0.1",
+	"local_port":1081,
+	"password": "doub.io/sszhfx/*doub.bid/sszhfx/*5943",
+	"timeout":300,
+	"udp_timeout":60,
+	"method": "chacha20",
+	"protocol": "auth_aes128_sha1",
+	"protocol_param":"",
+	"obfs":"tls1.2_ticket_auth",
+	"obfs_param":"",
+	"fast_open":false,
+	"workers":1
+	}
+cd ~/shadowsocksr/shadowsocks
+sudo python local.py -c /etc/shadowsockssr.json -d start
+sudo tail /var/log/shadowsocksr.log
+# 其实当我们在GUI选择服务器时,实际操作为
+# python /home/femn/shadowsocksr/shadowsocks/local.py -s 104.160.173.141 -p 5943 -b 127.0.0.1 -l 1080 -k doub.io/sszhfx/*doub.bid/sszhfx/*5943 -m chacha20 -O auth_aes128_sha1 -o tls1.2_ticket_auth
+
 ```
 
 

@@ -16,7 +16,8 @@ Plug 'VundleVim/Vundle.vim'
 " utilities
 Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
 Plug 'benmills/vimux'
-Plug 'tpope/vim-fugitive' " the ultimate git helper
+Plug 'tpope/vim-fugitive' " the ultimate git helper e.x :Gstatus
+Plug 'airblade/vim-gitgutter'
 " Git integration
 Plug 'motemen/git-vim'
 Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
@@ -42,12 +43,36 @@ Plug 'suan/vim-instant-Markdown'
 " 自动补全 单引号，双引号等
 Plug 'Raimondi/delimitMate'
 
+"补全代码片段
+" Track the engine.
+Plug 'SirVer/ultisnips'
+
+"各种程序语言的代码片段,也可以自己写
+" Snippets are separated from the engine. Add this if you want them:
+Plug 'honza/vim-snippets'
+
+
 " colorschemes
 Plug 'chriskempson/base16-vim'
+
+"快速编写xml/html的能力，如标签自动闭合等
+Plug 'othree/xml.vim'
+Plug 'othree/html5.vim'
+Plug 'mattn/emmet-vim'
+
+"CSS
+Plug 'hail2u/vim-css3-syntax'    
+Plug 'cakebaker/scss-syntax.vim'
+"Plug 'groenewege/vim-less'
+"Plug 'Raimondi/delimitMate'
 
 " JavaScript plugins
 Plug 'pangloss/vim-javascript'
 Plug 'jelera/vim-javascript-syntax'
+"Plug 'othree/yajs.vim'
+"Plug 'othree/javascript-libraries-syntax.vim'
+"Plug 'nathanaelkane/vim-indent-guides'
+"Plug 'marijnh/tern_for_vim'
 
 " call vundle#end()
 call plug#end()
@@ -117,6 +142,7 @@ let g:molokai_original = 1
 let g:rehash256 = 1
 " 默认的python解释器
 let g:syntastic_python_python_exec = 'python3' 
+let javascript_enable_domhtmlcss = 1
 
 set number
 
@@ -404,13 +430,24 @@ let g:jedi#smart_auto_mappings = 0
 au FileType python let b:delimitMate_nesting_quotes = ['"']
 " 关闭某些类型文件的自动补全
 "au FileType mail let b:delimitMate_autoclose = 0
+"
+
+" UltiSnips--------------------------------------------------------
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<C-b>"
+let g:UltiSnipsJumpBackwardTrigger="<C-z>"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
 
 " youcompleteme ------------------------------
 " Plug 'Valloric/YouCompleteMe' 手动clone快点
 set runtimepath+=~/.vim/bundle/YouCompleteMe
 set completeopt=longest,menu	"让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif	"离开插入模式后自动关闭预览窗口
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"	"回车即选中当前项
+"inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"	"回车即选中当前项
+"
 "上下左右键的行为 会显示其他信息
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
@@ -456,9 +493,14 @@ let g:ycm_key_invoke_completion = '<M-;>'
 " SirVer/ultisnips 代码片断
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 "定义存放代码片段的文件夹，使用自定义和默认的，将会的到全局，有冲突的会提示
-let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
-let g:UltiSnipsExpandTrigger       ="<c-tab>"
-let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+"let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
+"let g:UltiSnipsExpandTrigger       ="<c-tab>"
+"let g:UltiSnipsJumpForwardTrigger  = "<tab>"
+"let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " Enable tabbing through list of results
+let g:ycm_semantic_triggers =  {
+		\   'javascript': ['.', 're!(?=[a-zA-Z]{3,4})'],
+		\ 'scss,css': [ 're!^\s{2,4}', 're!:\s+' ],
+		\ 'html': ['<', '"', '</', ' '],
+		\ }

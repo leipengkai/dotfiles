@@ -1,0 +1,62 @@
+server:216.189.158.147 "protocol": "auth_aes128_sha1", 不可以访问youtube
+
+ssr://MjE2LjE4OS4xNTguMTQ3OjU5NDM6YXV0aF9hZXMxMjhfc2hhMTpjaGFjaGEyMDp0bHMxLjJfdGlja2V0X2F1dGg6Wkc5MVlpNXBieTl6YzNwb1puZ3ZLbVJ2ZFdJdVltbGtMM056ZW1obWVDOHFOVGswTXcvP3JlbWFya3M9NXB5czZMU201WS0zNXAybDZJZXFPbVJ2ZFdJdWFXOHZjM042YUdaNEwtbVZuT1dEai1XZm4tV1FqVHBrYjNWaUxtSnBaQzl6YzNwb1puZ3Y
+
+
+
+server:104.160.173.141 "protocol": "auth_aes128_sha1",
+
+ssr://MTA0LjE2MC4xNzMuMTQxOjU5NDM6YXV0aF9hZXMxMjhfc2hhMTpjaGFjaGEyMDp0bHMxLjJfdGlja2V0X2F1dGg6Wkc5MVlpNXBieTl6YzNwb1puZ3ZLbVJ2ZFdJdVltbGtMM056ZW1obWVDOHFOVGswTXcvP3JlbWFya3M9NXB5czZMU201WS0zNXAybDZJZXFPbVJ2ZFdJdWFXOHZjM042YUdaNEwtbVZuT1dEai1XZm4tV1FqVHBrYjNWaUxtSnBaQzl6YzNwb1puZ3Y
+
+
+
+server:185.207.177.228 "protocol": "auth_aes128_sha1",
+
+ssr://MTg1LjIwNy4xNzcuMjI4OjU5NDM6YXV0aF9hZXMxMjhfc2hhMTpjaGFjaGEyMDp0bHMxLjJfdGlja2V0X2F1dGg6Wkc5MVlpNXBieTl6YzNwb1puZ3ZLbVJ2ZFdJdVltbGtMM056ZW1obWVDOHFOVGswTXcvP3JlbWFya3M9NXB5czZMU201WS0zNXAybDZJZXFPbVJ2ZFdJdWFXOHZjM042YUdaNEwtbVZuT1dEai1XZm4tV1FqVHBrYjNWaUxtSnBaQzl6YzNwb1puZ3Y
+
+
+
+server:67.21.82.19 "protocol": "auth_aes128_sha1",
+
+ssr://NjcuMjEuODIuMTk6NTk0MzphdXRoX2FlczEyOF9zaGExOmNoYWNoYTIwOnRsczEuMl90aWNrZXRfYXV0aDpaRzkxWWk1cGJ5OXpjM3BvWm5ndkttUnZkV0l1WW1sa0wzTnplbWhtZUM4cU5UazBNdy8_cmVtYXJrcz01cHlzNkxTbTVZLTM1cDJsNkllcU9tUnZkV0l1YVc4dmMzTjZhR1o0TC1tVm5PV0RqLVdmbi1XUWpUcGtiM1ZpTG1KcFpDOXpjM3BvWm5ndg
+
+
+
+
+server:64.137.201.246, "protocol": "auth_sha1_v4"
+
+ssr://NjQuMTM3LjIwMS4yNDY6NTk0MzphdXRoX3NoYTFfdjQ6Y2hhY2hhMjA6dGxzMS4yX3RpY2tldF9hdXRoOlpHOTFZaTVwYnk5emMzcG9abmd2S21SdmRXSXVZbWxrTDNOemVtaG1lQzhxTlRrME13Lz9yZW1hcmtzPTVweXM2TFNtNVktMzVwMmw2SWVxT21SdmRXSXVhVzh2YzNONmFHWjRMLW1Wbk9XRGotV2ZuLVdRalRwa2IzVmlMbUpwWkM5emMzcG9abmd2
+
+
+
+server:64.137.198.70 ,"protocol": "auth_sha1_v4",
+
+ssr://NjQuMTM3LjE5OC43MDo1OTQzOmF1dGhfc2hhMV92NDpjaGFjaGEyMDp0bHMxLjJfdGlja2V0X2F1dGg6Wkc5MVlpNXBieTl6YzNwb1puZ3ZLbVJ2ZFdJdVltbGtMM056ZW1obWVDOHFOVGswTXcvP3JlbWFya3M9NXB5czZMU201WS0zNXAybDZJZXFPbVJ2ZFdJdWFXOHZjM042YUdaNEwtbVZuT1dEai1XZm4tV1FqVHBrYjNWaUxtSnBaQzl6YzNwb1puZ3Y
+
+
+
+
+server:64.137.229.154 ,"protocol": "auth_sha1_v4",
+
+ssr://NjQuMTM3LjIyOS4xNTQ6NTk0MzphdXRoX3NoYTFfdjQ6Y2hhY2hhMjA6dGxzMS4yX3RpY2tldF9hdXRoOlpHOTFZaTVwYnk5emMzcG9abmd2S21SdmRXSXVZbWxrTDNOemVtaG1lQzhxTlRrME13Lz9yZW1hcmtzPTVweXM2TFNtNVktMzVwMmw2SWVxT21SdmRXSXVhVzh2YzNONmFHWjRMLW1Wbk9XRGotV2ZuLVdRalRwa2IzVmlMbUpwWkM5emMzcG9abmd2
+
+
+/etc/shadowsockssr.json 格式 ,本地端口改为了1081
+{
+"server":"216.189.158.147",
+"server_port":5943,
+"local_address":"127.0.0.1",
+"local_port":1081,
+"password": "doub.io/sszhfx/*doub.bid/sszhfx/*5943",
+"timeout":300,
+"udp_timeout":60,
+"method": "chacha20",
+"protocol": "auth_aes128_sha1",
+"protocol_param":"",
+"obfs":"tls1.2_ticket_auth",
+"obfs_param":"",
+"fast_open":false,
+"workers":1
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
