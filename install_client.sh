@@ -221,8 +221,8 @@ if [ -z "$PROXYCHAINS" ];then
     cd .. && rm -rf proxychains-ng
     # sed -i -e '/^socks/d' /etc/proxychains.conf
     # echo "socks5  127.0.0.1   1081" >> /etc/proxychains.conf
-	# 换行插入已经不需要 -e参数了
-    echo "strict_chain\n\
+	# 换行插入已经不需要 -e参数了,但在脚本运行时还是需要
+    echo -e "strict_chain\n\
         proxy_dns\n\
         remote_dns_subnet 224\n\
         tcp_read_time_out 15000\n\
@@ -253,12 +253,16 @@ fi
 NODEJS=`which nodejs`
 if [ -z "$NODEJS" ];then
 	add-apt-repository ppa:chris-lea/node.js
+	add-apt-repository ppa:fossfreedom/indicator-sysmonitor
+
 	apt-get update  # 则会有下面的sources
 	# vim /etc/apt/sources.list.d/chris-lea-ubuntu-node_js-xenial.list
 		# deb http://ppa.launchpad.net/chris-lea/node.js/ubuntu xenial main  
 	apt-get install -y nodejs
 	apt-get install -y npm
 	npm -g install instant-markdown-d
+	apt-get install -y indicator-sysmonitor 
+	# indicator-sysmonitor &
 fi
 
 # 

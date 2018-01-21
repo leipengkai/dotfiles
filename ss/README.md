@@ -258,6 +258,20 @@ curl ip.gs
 proxychains4 curl ip.gs
 ```
 
+### private 
+```bash
+sudo apt-get install privoxy
+vim /etc/privoxy/config
+	listen-address 127.0.0.1:8118
+	后面的1080端口要对应ss服务里面的配置要一致,只要加下面一句就可以了
+	forward-socks5t / 127.0.0.1:1080
+export https_proxy=http://127.0.0.1:8118
+export http_proxy=http://127.0.0.1:8118
+export ftp_proxy=http://127.0.0.1:8118
+service privoxy start
+curl www.google.com
+```
+
 
 
 
