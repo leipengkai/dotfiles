@@ -1,3 +1,19 @@
+- ### 浏览器
+		
+	[Opera浏览器](http://www.opera.com/zh-cn/computer/features/free-vpn)  免流(本人是重启之后才能访问google,其它的国外网站一设置就可以用)
+	
+	settings-->Privacy&Security-->VPN-->Enable VPN
+
+- ### chrome插件
+
+	[谷歌服务助手](https://chrome.google.com/webstore/search/%E8%B0%B7%E6%AD%8C%E6%9C%8D%E5%8A%A1%E5%8A%A9%E6%89%8B?utm_source=InfinityNewtab):永久免费,速度一般,高峰期不太稳定,可以在QQ浏览器中安装
+
+	[Unlimited Free VPN - Hola](https://chrome.google.com/webstore/detail/unlimited-free-vpn-hola/gkojfkhlekighikafcpjkiklfbnlmeio/related?utm_source=InfinityNewtab)
+	
+	[谷歌上网助手](http://googlehelper.net/):三天试用.16RMB/1M.160RMB/1Y
+	需要注意的是不能使用 SwitchyOmega或者其它代理插件
+
+	[ZenMate](https://chrome.google.com/webstore/detail/zenmate-vpn-best-cyber-se/fdcgdnkidjaadafnichfpabhfomcebme?hl=zh-CN&)
 - ### 安装蓝灯[官方地址](https://getlantern.org/en_US/) ,[github地址](https://github.com/getlantern/forum/issues/833)
 
 	Windows、Linux、macOS、Android
@@ -6,6 +22,7 @@
 
 	代理端口 HTTP(S):40427 ,SOCKS5:42409
 
+	[SurfEasy](https://www.surfeasy.com/)
 
 
 - ### 安装[XX-net](https://github.com/XX-net/XX-Net) + [SwitchyOmega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif)
@@ -43,6 +60,8 @@
 	# 注意要一定运行 miredo 
 	# 而且要查看 SwitchyOmega GAE-Proxy自动切换和X-Tunnel自动切换两种模式 是否设置成AutoProxy
 	# 导入进来的有四种模式 当有些不能用时 就换别的
+	# SwitchyOmega List url:
+	# https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
 ```
 
 - ### [shadowsocks 官网](https://shadowsocks.org/en/download/clients.html)
@@ -311,3 +330,6 @@ server {
 	search DHCP HOST
 ```
 
+- ### VPN
+
+	[vyprvpn](https://www.goldenfrog.com/zh/vyprvpn)

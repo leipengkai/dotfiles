@@ -104,9 +104,11 @@ fi
 
 GIT=`which git`
 if [ -z "$GIT" ];then
-    apt-get install -y git nmap
+    apt-get install -y git nmap vim-gnome
 fi
 # /usr/bin/git
+# ubuntu 和mint默认安装的vim是不支持系统剪切、粘贴版的，需要执行以下安装
+# VIM_GNOME=`apt list |grep vim-gnome`
 
 # install docker 
 DOCKER=`which docker`
@@ -121,12 +123,6 @@ if [ -z "$DOCKER" ];then
     systemctl status docker
 fi
 # /usr/bin/docker
-
-# ubuntu 和mint默认安装的vim是不支持系统剪切、粘贴版的，需要执行以下安装
-VIM_GNOME=`apt list |grep vim-gnome`
-if [ -z "$VIM_GNOME" ];then
-    apt-get install -y vim vim-gnome
-fi
 
 # install shadowsocks
 SS=`which ss-qt5`
