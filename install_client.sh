@@ -48,7 +48,7 @@ if [ -z "$PIP" ];then
 
 	. ~/.bashrc 
 	# 加载.bashrc的环境变量
-	ehco ". ~/.bashrc" >> ~/.profile
+	echo ". ~/.bashrc" >> ~/.profile
 	# 安装Powerline字体
 	wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
 	wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf

@@ -278,13 +278,24 @@
 	<ctrl-w>o	#保存活动容器，关闭其它所有窗口 :on[ly]
 	# 切换窗口
 	<ctrl-w>w	# 窗口循环切换
-	<ctrl-w>h j k l	
-	#改变窗口
-	<ctrl-w>=	
-	[N]<ctrl-w>_ # 最大化高度
+	<ctrl-w>h j k l	= ctrl+(h j k l)
+	#改变窗口大小,推荐用鼠标
+	:set mouse=a
+	:set mouse-=a
+	/+z :最大化当前窗口
 
-	[N]<ctrl-w>| # 	  宽度
-    	[N]<ctrl-w>< # >
+	# 改变高度
+	<ctrl+w> + 
+	<ctrl+w> - 
+	<ctrl+w> =  # 同等高度
+
+	# 改变宽度
+	<ctrl+w> >
+	<ctrl+w> <
+
+	# 窗口之间的换位
+	ctrl_w+r: 窗口本身, 不是鼠标指针顺时针 (向下, 向右 移动), R : 则是逆时针反方向(向上, 向左)移动.
+	ctrl_w+x: 左右上下对应位置的窗口 对调
     
 
 #### 在Vim中，标签页是可以容纳一系列窗口的容器口

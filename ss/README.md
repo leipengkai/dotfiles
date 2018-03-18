@@ -1,19 +1,36 @@
 - ### 浏览器
 		
-	[Opera浏览器](http://www.opera.com/zh-cn/computer/features/free-vpn)  免流(本人是重启之后才能访问google,其它的国外网站一设置就可以用)
+	通过[SurfEasy](https://www.surfeasy.com/)的官网得到的[Opera](https:addons.opera.com/en/extensions/details/surfeasy-proxy/) 因为下面的官方opera浏览器,已经下载不到带有VPN功能
+
+	特点:免流(本人是重启之后才能访问google,其它的国外网站一设置就可以用)
 	
 	settings-->Privacy&Security-->VPN-->Enable VPN
 
-- ### chrome插件
+	并将系统代理去掉(设置为None)
 
-	[谷歌服务助手](https://chrome.google.com/webstore/search/%E8%B0%B7%E6%AD%8C%E6%9C%8D%E5%8A%A1%E5%8A%A9%E6%89%8B?utm_source=InfinityNewtab):永久免费,速度一般,高峰期不太稳定,可以在QQ浏览器中安装
+- ### chrome插件,不能和SwitchyOmega或者其它代理插件一起使用
+
+		安装即用
+
+	[谷歌服务助手](https://chrome.google.com/webstore/search/%E8%B0%B7%E6%AD%8C%E6%9C%8D%E5%8A%A1%E5%8A%A9%E6%89%8B?utm_source=InfinityNewtab):永久免费,速度一般500kb,高峰期不太稳定,可以在QQ浏览器中安装
+		使用:选上允许设置主页,然后点开Googel就行了,一些常用的网站可以访问(包括社交网站),一些不常用的不行.
+	
+	[谷歌上网助手](http://googlehelper.net/):但仅用于谷歌产品(常用的社交网站访问不到:tw,fb,youtube) 速度可以 1.1M
+
+		注册时(网页)需要外网,登陆过后就用插件直接使用
+	
+	[SurfEasy](https:chrome.google.com/webstore/detail/surfeasy-vpn-security-pri/odiddbcijempnhhobijfbggjogofdlgl?hl=zh-CN):网页和chrome插件版本需要注册帐户,要多次点击启用插件按钮,然后在插件中直接登陆帐户.流量:1000M/M   速度800kb
+
+		注册和登陆时需要外网(都在网页版上),登陆过后就用插件直接使用
+	[ZenMate](https://chrome.google.com/webstore/detail/zenmate-vpn-best-cyber-se/fdcgdnkidjaadafnichfpabhfomcebme?hl=zh-CN&)
+	速度6.8M 不太稳定
+
+		这个插件需要在 用上面的一个插件的前提下(不能使用SS),才能正常的init
+		init完成之后再将其它的代理插件给去了,有个on显示则表现已经连接成功了
+		这样就安装即用
 
 	[Unlimited Free VPN - Hola](https://chrome.google.com/webstore/detail/unlimited-free-vpn-hola/gkojfkhlekighikafcpjkiklfbnlmeio/related?utm_source=InfinityNewtab)
-	
-	[谷歌上网助手](http://googlehelper.net/):三天试用.16RMB/1M.160RMB/1Y
-	需要注意的是不能使用 SwitchyOmega或者其它代理插件
 
-	[ZenMate](https://chrome.google.com/webstore/detail/zenmate-vpn-best-cyber-se/fdcgdnkidjaadafnichfpabhfomcebme?hl=zh-CN&)
 - ### 安装蓝灯[官方地址](https://getlantern.org/en_US/) ,[github地址](https://github.com/getlantern/forum/issues/833)
 
 	Windows、Linux、macOS、Android
@@ -22,7 +39,6 @@
 
 	代理端口 HTTP(S):40427 ,SOCKS5:42409
 
-	[SurfEasy](https://www.surfeasy.com/)
 
 
 - ### 安装[XX-net](https://github.com/XX-net/XX-Net) + [SwitchyOmega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif)

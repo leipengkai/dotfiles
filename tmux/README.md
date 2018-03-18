@@ -35,37 +35,22 @@ tmux采用C/S模型构建，输入tmux命令就相当于开启了一个服务器
 ```
 ## 安装插件处理器[TPM](https://github.com/tmux-plugins/tpm)
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    tmux # 进入tmux环境
+
+## 重新加载配置文件[~/tmux.conf](./tmux.conf) 注意本人的<prefix> = ctrl+a
+    tmux source-file ~/.tmux.conf
+    # 进入到命令模式后输入source-file ~/.tmux.conf，回车后生效
+    # 在tmux环境下 <prefix>+r
+    <prefix> + I # 安装需要的插件
 
 ## tmux基本用法
-
-进入tmux环境
-
-    tmux 
-
-重新加载配置文件[~/tmux.conf](./tmux.conf)
-
-    tmux source-file ~/.tmux.conf
-    # <prefix>+r
-    # 3. 进入到命令模式后输入source-file ~/.tmux.conf，回车后生效
-
-在tmux环境中 安装插件
-
-    <prefix> + I
-	# 查看插件
+查看插件
 	ls ~/.tmux/plugins/
 
 在tmux环境中 升级所有插件
 
 	<prefix> + U
 
-在tmux环境中 升级所有插件
-
-	在~/.tmux.conf在注释掉对应的行
-	<prefix> + alt + u
-
-在tmux环境下,重新加载配置文件
-
-    <prefix> + r
 创建会话(shell环境中)
 
     tmux # 新建一个无名称的会话,默认是0
@@ -142,7 +127,7 @@ tmux采用C/S模型构建，输入tmux命令就相当于开启了一个服务器
 	prefix ] 复制到光标所在位置
 	q 退出
 
-### 使用插件[tmux-yank](https://github.com/tmux-plugins/tmux-yank)
+### 使用[tmux-yank](https://github.com/tmux-plugins/tmux-yank)
 
 	普通模式下:
 	<prefix> + y #把当前命令行的内容拷到剪切板（支持bash,zsh,python解释器；稍加配置还支持vim命令栏）
@@ -152,3 +137,8 @@ tmux采用C/S模型构建，输入tmux命令就相当于开启了一个服务器
 	y # 把当前选中的内容拷到剪切板
 	Y # 把当前选中的内容拷到剪切板，然后再粘到命令行（退出tmux选择模式后会看到zsh提示符后已经粘好内容了，直接敲回车就可以执行）
 	# 本人使用的时候有bug,所以没有安装
+### 使用tmux-resurrect:系统重启之后比较容易地恢复tmux session 
+	prefix Ctrl-s       # save tmux session to local file
+	prefix Ctrl-r       # reload tmux session from local file
+	值得注意的是，恢复后，原窗口中的进程会被杀掉。如果你是重启后恢复，那自然没什么问题，但是平时试验的时候可要留心有没有重要的任务正在运行中
+

@@ -34,9 +34,9 @@
 	# 因为有可能使用的安装版本pip不同,可能路径不一致,所以特意指出 
 
 ```
-- YouCompleteMe插件的依赖包[ llvm](http://releases.llvm.org/download.html)	
+- YouCompleteMe插件的依赖包[ llvm](http://releases.llvm.org/download.html)	ctrl+m是定义之间的跳转
 ```bash 
-	sudo apt-get install -y  build-essential cmake python-dev python3-dev
+	sudo apt-get install  -y cmake build-essential python-dev python3-dev libssl-dev libavahi-client-dev libxml2-dev libbsd-dev libncurses5-dev 
 	
 	# 国外源 连接失败
 	# wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -

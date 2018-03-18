@@ -31,7 +31,7 @@ Plug 'tell-k/vim-autopep8' " 自动格式化工具
 " pip install autopep9 对应python版本必须要有这个模块,不然中文执行会报错
 Plug 'Lokaltog/vim-powerline' " 用于美化状态栏
 Plug 'scrooloose/nerdcommenter' " 注释
-Plug 'nvie/vim-flake8' " 代码检查
+" Plug 'nvie/vim-flake8' " 代码检查
 Plug 'Vimjas/vim-python-pep8-indent' " 自动缩进 
 
 " md相关插件
@@ -90,7 +90,7 @@ set autoread " detect when a file is changed
 set backspace=indent,eol,start
 
 " set a map leader for more key combos
-let mapleader = ','
+let mapleader = "/"
 
 " Tab control
 set noexpandtab " tabs ftw
@@ -176,6 +176,26 @@ map <C-h> :call WinMove('h')<cr>
 map <C-j> :call WinMove('j')<cr>
 map <C-k> :call WinMove('k')<cr>
 map <C-l> :call WinMove('l')<cr>
+
+
+" 最大化vim窗口
+function! Zoom ()
+" check if is the zoomed state (tabnumber > 1 && window == 1)
+if tabpagenr('$') > 1 && tabpagewinnr(tabpagenr(), '$') == 1
+	let l:cur_winview = winsaveview()
+	let l:cur_bufname = bufname('')
+	tabclose
+
+	" restore the view
+	if l:cur_bufname == bufname('')
+		call winrestview(cur_winview)
+	endif
+else
+	tab split
+endif
+endfunction
+
+nmap <leader>z :call Zoom()<CR>
 
 " Window movement shortcuts
 " move to the window in the direction shown, or create a new window
@@ -419,9 +439,9 @@ map  <leader>ci <CR>
 " 支持自动补全, 定义跳转, 按PEP8规范自动缩进
 let g:pymode_python = 'python3'
 autocmd VimEnter *.py python3 sys.path.append('.')
-autocmd BufWritePost *.py call Flake8()
+" autocmd BufWritePost *.py call Flake8()
 "using flake8 as a python syntax checker 
-let g:syntastic_python_checkers=['flake8']
+" let g:syntastic_python_checkers=['flake8']
 let g:syntastic_python_flake8_args='--ignore=E501,E225'
 let g:jedi#force_py_version=3
 let g:jedi#smart_auto_mappings = 0
@@ -454,7 +474,7 @@ inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
 inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 " 跳转到定义处
-nnoremap <c-j> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <c-m> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " nnoremap <c-k> :YcmCompleter GoToDefinition<CR>            " 跳转到定义处
 
 nnoremap <F6> :YcmForceCompileAndDiagnostics<CR>	"force recomile with syntastic
