@@ -74,6 +74,9 @@ Plug 'jelera/vim-javascript-syntax'
 "Plug 'nathanaelkane/vim-indent-guides'
 "Plug 'marijnh/tern_for_vim'
 
+
+" 主题
+
 " call vundle#end()
 call plug#end()
 filetype plugin indent on
@@ -128,12 +131,19 @@ set showmatch " show matching braces
 set mat=2 " how many tenths of a second to blink
 
 " switch syntax highlighting on
-syntax on
 
 set encoding=utf8
 " let base16colorspace=256  " Access colors present in 256 colorspace"
 " set background=dark
-" colorscheme delek
+
+" 
+syntax on
+set background=light
+colorscheme pablo
+" colorscheme morning
+" colorscheme koehler
+" colorscheme ron
+" colorscheme industry
 
 " 以Molokai为vim颜色主题
 " $ cd ~

@@ -1,3 +1,38 @@
+- ### [谷歌云](https:cloud.google.com/)简单实用安装[SS](https:doub.io/brook-jc3/),[V2ray](https:www.youtube.com/watch?v=pgGK5W1z3jg)
+
+	谷歌云创建实例:
+
+	创建cloud.google.com帐号-->控制中心-->Compute Engine-->VM-->asia-east1-b-->
+	机器类型选择最便宜的-->启动磁盘(Debian GNU/Linux 9(stretch)--> 勾选允许HTTP(S)流量-->ping <100ms -->ssh连接
+
+	谷歌云设置防火墙:
+
+	控制中心-->VPC网络-->防火墙规则-->default-allow-http(s)-->tcp:SS端口;udp:SS端口;tcp:V2ray端口;udp:V2ray端口;
+```bash
+# 安装V2ray教程:  https:233blog.com/post/16/
+sudo -i
+bash <(curl -s -L https:233blog.com/v2ray.sh)
+
+#查看安装后的信息
+v2ray
+```
+
+如果想单独安装SS,可以新创建一个实例,选择Debian GNU/Linux 8(jessie)启动磁盘
+```bash
+sudo -i
+wget -N --no-check-certificate https://raw.githubusercontent.com/FunctionClub/YankeeBBR/master/bbr.sh && bash bbr.sh install
+# 蓝底窗口按TAB键选NO, 选择重启 Y
+# 重新连接SSH
+sudo -i
+
+#启动锐速
+bash bbr.sh start
+
+wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.sh && chmod +x shadowsocksR.sh
+
+# 安装SS
+./shadowsocksR.sh
+```
 - ### 浏览器
 		
 	通过[SurfEasy](https://www.surfeasy.com/)的官网得到的[Opera](https:addons.opera.com/en/extensions/details/surfeasy-proxy/) 因为下面的官方opera浏览器,已经下载不到带有VPN功能
