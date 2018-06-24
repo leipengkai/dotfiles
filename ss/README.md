@@ -328,7 +328,7 @@ curl ip.gs
 proxychains4 curl ip.gs
 ```
 
-### private 
+### privoxy 
 ```bash
 sudo apt-get install privoxy
 vim /etc/privoxy/config
