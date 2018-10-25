@@ -1,17 +1,24 @@
-- ### [谷歌云](https:cloud.google.com/)简单实用安装[SS](https:doub.io/brook-jc3/),[V2ray](https:www.youtube.com/watch?v=pgGK5W1z3jg)
+- ### [谷歌云](https://cloud.google.com/)简单实用安装[SS](https://doub.io/brook-jc3/),[安装V2ray的视频](https://www.youtube.com/watch?v=pgGK5W1z3jg)
 
-	谷歌云创建实例:
+#### 谷歌云创建实例:
 
 	创建cloud.google.com帐号-->控制中心-->Compute Engine-->VM-->asia-east1-b-->
-	机器类型选择最便宜的-->启动磁盘(Debian GNU/Linux 9(stretch)--> 勾选允许HTTP(S)流量-->ping <100ms -->ssh连接
+	机器类型选择最便宜的-->启动磁盘(Debian GNU/Linux 9(stretch)--> 勾选允许HTTP(S)流量
+    -->ping <100ms -->ssh连接
 
-	谷歌云设置防火墙:
+[检测ip是否可用](https://ipcheck.need.sh/)
+
+[检测ip网速](https://ping.aizhan.com/)
+
+#### 谷歌云设置防火墙:
 
 	控制中心-->VPC网络-->防火墙规则-->default-allow-http(s)-->tcp:SS端口;udp:SS端口;tcp:V2ray端口;udp:V2ray端口;
+    也可以开启全部端口:
+![也可以设置全部开启的防火墙](https://ws2.sinaimg.cn/large/006tNbRwgy1fwkh7n0ivnj319o0xe0zp.jpg)
 ```bash
-# 安装V2ray教程:  https:233blog.com/post/16/
+# 安装V2ray教程:  https://233blog.com/post/16/
 sudo -i
-bash <(curl -s -L https:233blog.com/v2ray.sh)
+bash <(curl -s -L https://233blog.com/v2ray.sh)
 
 #查看安装后的信息
 v2ray
@@ -33,9 +40,11 @@ wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsoc
 # 安装SS
 ./shadowsocksR.sh
 ```
+[检测port是否开启](http://tool.chinaz.com/port/)
+
 - ### 浏览器
 		
-	通过[SurfEasy](https://www.surfeasy.com/)的官网得到的[Opera](https:addons.opera.com/en/extensions/details/surfeasy-proxy/) 因为下面的官方opera浏览器,已经下载不到带有VPN功能
+	通过[SurfEasy](https://www.surfeasy.com/)的官网得到的[Opera](https://addons.opera.com/en/extensions/details/surfeasy-proxy/) 因为下面的官方opera浏览器,已经下载不到带有VPN功能
 
 	特点:免流(本人是重启之后才能访问google,其它的国外网站一设置就可以用)
 	
@@ -54,7 +63,7 @@ wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsoc
 
 		注册时(网页)需要外网,登陆过后就用插件直接使用
 	
-	[SurfEasy](https:chrome.google.com/webstore/detail/surfeasy-vpn-security-pri/odiddbcijempnhhobijfbggjogofdlgl?hl=zh-CN):网页和chrome插件版本需要注册帐户,要多次点击启用插件按钮,然后在插件中直接登陆帐户.流量:1000M/M   速度800kb
+	[SurfEasy](https://chrome.google.com/webstore/detail/surfeasy-vpn-security-pri/odiddbcijempnhhobijfbggjogofdlgl?hl=zh-CN):网页和chrome插件版本需要注册帐户,要多次点击启用插件按钮,然后在插件中直接登陆帐户.流量:1000M/M   速度800kb
 
 		注册和登陆时需要外网(都在网页版上),登陆过后就用插件直接使用
 	[ZenMate](https://chrome.google.com/webstore/detail/zenmate-vpn-best-cyber-se/fdcgdnkidjaadafnichfpabhfomcebme?hl=zh-CN&)
