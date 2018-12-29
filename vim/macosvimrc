@@ -1,0 +1,286 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 定义快捷键的前缀，即<Leader>
+let mapleader=";"
+" 关闭兼容模式
+set nocompatible 
+" 开启文件类型侦测
+filetype on
+" 根据侦测到的不同类型加载对应的插件
+filetype plugin on
+" 自适应不同语言的智能缩进
+filetype indent on
+autocmd BufWritePost $MYVIMRC source $MYVIMRC " 让配置变更立即生效
+
+" :set ts=4  
+set tabstop=4 " tab制表符空格数
+set shiftwidth=4  " 自动缩进 设置为4个空格
+set expandtab " 将制表符替换为空格
+" set softtabstop=4 " 把连续数量的空格视为一个制表符
+
+set hlsearch " 搜索时高亮显示被找到的文本
+set incsearch " 开启实时搜索功能
+set ignorecase " 搜索时大小写不敏感
+set wildmenu " vim 自身命令行模式智能补全
+
+set ruler " 显示光标当前位置
+set number
+" 总是显示状态栏
+set laststatus=2
+set backspace=2 " 解决MacOS使用backspace,删除文字时有警告声的问题
+
+
+
+
+" 主题风格 配色方案
+"set background=dark
+"colorscheme solarized
+" colorscheme molokai
+" colorscheme phd
+" 美化状态栏
+let g:Powerline_colorscheme='solarized256'
+
+
+
+syntax enable " 开启语法高亮功能
+syntax on " 允许用指定语法高亮配色方案替换默认方案
+
+" 环境恢复
+" 设置环境保存项
+set sessionoptions="blank,buffers,globals,localoptions,tabpages,sesdir,folds,help,options,resize,winpos,winsize"
+" 保存 undo 历史
+set undodir=~/.undo_history/
+set undofile
+" 保存快捷键
+map <leader>ss :mksession! my.vim<cr> :wviminfo! my.viminfo<cr>
+" 恢复快捷键
+map <leader>rs :source my.vim<cr> :rviminfo my.viminfo<cr>
+
+" load plugins from vundle
+"Vundle Section Start
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" call plug#begin('~/.vim/plugged')
+
+Plugin 'VundleVim/Vundle.vim' " 插件管理
+Plugin 'scrooloose/nerdtree' " 文件树 NERDTreeToggle F3
+Plugin 'majutsushi/tagbar' " 导航橍 TagbarToggle F4
+
+Plugin 'tpope/vim-fugitive' " the ultimate git helper e.x :Gstatus
+"Plugin 'motemen/git-vim' " git status
+Plugin 'airblade/vim-gitgutter' " 高亮当前修改
+
+Plugin 'scrooloose/syntastic' " 语法检查/高亮
+Plugin 'kshenoy/vim-signature' " 实现可视化的书签 e.x:mm `m
+" 主题风格
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tomasr/molokai'
+Plugin 'vim-scripts/phd'
+
+
+
+Plugin 'Lokaltog/vim-powerline' " 美化状态栏
+Plugin 'dyng/ctrlsf.vim' " 内容查找工具 apt install ack
+Plugin 'terryma/vim-multiple-cursors' " 内容替换
+Plugin 'scrooloose/nerdcommenter' " 代码注释
+" Plugin 'suan/vim-instant-markdown' " 实现实时预览功能
+Plugin 'iamcco/markdown-preview.vim'
+
+
+
+
+
+
+call vundle#end()
+" call plug#end()
+filetype plugin indent on
+"Vundle Section End
+
+" Plug 'kien/ctrlp.vim' " fuzzy find files
+" $ cd ~/.vim
+" $ git clone https://github.com/kien/ctrlp.vim.git bundle/ctrlp.vim
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+" Plug 'Valloric/YouCompleteMe' 手动clone快点
+set runtimepath+=~/.vim/bundle/YouCompleteMe
+
+
+
+
+
+
+
+" let g:ctrlsf_ackprg = 'awk'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugin settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree ----------------------------- 
+" toggle nerdtree display
+map <F3> :NERDTreeToggle<CR>
+" open nerdtree with the current file selected
+nmap ,t :NERDTreeFind<CR>
+" don;t show these file types
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.swp$']
+" modify size
+let NERDTreeWinSize=25
+" close NERDTree after a file is opened
+let g:NERDTreeQuitOnOpen=0
+" show hidden files in NERDTree
+let NERDTreeShowHidden=1
+" expand to the path of the file in the current buffer
+nmap <silent> <leader>y :NERDTreeFind<cr>
+
+
+" Tagbar ----------------------------- 
+" toggle tagbar display
+map <F4> :TagbarToggle<CR>
+" autofocus on tagbar open
+let g:tagbar_autofocus = 1
+
+" nmap、imap、vmap来定义映射仅在normal、insert、visual模式有效
+
+" vim-signature ---------------------------------
+" 自定义 vim-signature 快捷键
+let g:SignatureMap = {
+        \ 'Leader'             :  "m",
+        \ 'PlaceNextMark'      :  "m,",
+        \ 'ToggleMarkAtLine'   :  "m.",
+        \ 'PurgeMarksAtLine'   :  "m-",
+        \ 'DeleteMark'         :  "dm",
+        \ 'PurgeMarks'         :  "mda",
+        \ 'PurgeMarkers'       :  "m<BS>",
+        \ 'GotoNextLineAlpha'  :  "']",
+        \ 'GotoPrevLineAlpha'  :  "'[",
+        \ 'GotoNextSpotAlpha'  :  "`]",
+        \ 'GotoPrevSpotAlpha'  :  "`[",
+        \ 'GotoNextLineByPos'  :  "]'",
+        \ 'GotoPrevLineByPos'  :  "['",
+        \ 'GotoNextSpotByPos'  :  "mn",
+        \ 'GotoPrevSpotByPos'  :  "mp",
+        \ 'GotoNextMarker'     :  "[+",
+        \ 'GotoPrevMarker'     :  "[-",
+        \ 'GotoNextMarkerAny'  :  "]=",
+        \ 'GotoPrevMarkerAny'  :  "[=",
+        \ 'ListLocalMarks'     :  "ms",
+        \ 'ListLocalMarkers'   :  "m?"
+        \ }
+
+" ctrlsf.vim -----------------------------------------
+" 插件在工程内全局查找光标所在关键字,设置快捷键.快捷键速记法：search in  project
+nnoremap <Leader>sp :CtrlSF<CR>
+
+" 模板补全
+" UltiSnips 的 tab 键与 YCM 冲突，重新设定
+" let g:UltiSnipsSnippetDirectories=["mysnippets"]
+" let g:UltiSnipsExpandTrigger="<leader><tab>"
+" let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
+
+" >> /Users/leipengkai/Downloads/anaconda3/bin/python3'
+" YCM 补全
+let g:ycm_python_binary_path='/usr/bin/python'
+" let g:ycm_server_python_interpreter='/Users/leipengkai/Downloads/anaconda3/bin/python3'
+let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'"
+" 跳转到申明处
+"nnoremap <leader>jc :YcmCompleter GoToDeclaration<CR>  
+" 只能是 #include 或已打开的文件
+" 跳转到定义处
+"nnoremap <leader>jd :YcmCompleter GoToDefinition<CR> 
+"nnoremap f :tab split \| :YcmCompleter GoToDefinition
+
+" Shortcuts for navigating to definitions using YouCompleteMe
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" Open definition in new vertical split
+map <leader>ds :split<CR>:exec("YcmCompleter GoToDefinitionElseDeclaration")<CR>
+map <leader>dvs :vsp <CR>:exec("YcmCompleter GoToDefinitionElseDeclaration")<CR>
+" Open definition in new tab
+map <leader>dt :tab split<CR>:exec("YcmCompleter GoToDefinitionElseDeclaration")<CR>
+
+
+" YCM 补全菜单配色
+" 菜单
+"highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
+" 选中项
+"highlight PmenuSel ctermfg=2 ctermbg=3 guifg=#106900 guibg=#AFD700
+
+
+" 补全功能在注释中同样有效
+let g:ycm_complete_in_comments=1
+
+" 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
+let g:ycm_confirm_extra_conf=0
+
+" 开启 YCM 标签补全引擎
+" 开启基于tag的补全，可以在这之后添加需要的标签路径  
+let g:ycm_collect_identifiers_from_tags_files=1
+
+"注释和字符串中的文字也会被收入补全
+let g:ycm_collect_identifiers_from_comments_and_strings = 0
+"在字符串输入中也能补全
+let g:ycm_complete_in_strings = 1
+" 从第二个键入字符就开始罗列匹配项
+let g:ycm_min_num_of_chars_for_completion=2
+
+"" 引入 C++ 标准库 tags
+"set tags+=/data/misc/software/app/vim/stdcpp.tags
+"set tags+=/data/misc/software/app/vim/sys.tags
+
+" YCM 集成 OmniCppComplete 补全引擎，设置其快捷键
+inoremap <leader>; <C-x><C-o>
+
+" 补全内容不以分割子窗口形式出现，只显示补全列表
+set completeopt-=preview
+
+
+" 禁止缓存匹配项，每次都重新生成匹配项
+let g:ycm_cache_omnifunc=0
+
+" 语法关键字补全
+let g:ycm_seed_identifiers_with_syntax=1
+
+" 设置在下面几种格式的文件上屏蔽ycm
+" let g:ycm_filetype_blacklist = {
+" 	  \ 'tagbar' : 1,
+" 	  \ 'nerdtree' : 1,
+" 	  \}
+
+" Enable tabbing through list of results
+let g:ycm_semantic_triggers =  {
+		\   'javascript': ['.', 're!(?=[a-zA-Z]{3,4})'],
+		\ 'scss,css': [ 're!^\s{2,4}', 're!:\s+' ],
+		\ 'html': ['<', '"', '</', ' '],
+		\ }
+
+"上下左右键的行为 会显示其他信息
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Window movement shortcuts
+" move to the window in the direction shown, or create a new window
+function! WinMove(key)
+    let t:curwin = winnr()
+    exec "wincmd ".a:key
+    if (t:curwin == winnr())
+        if (match(a:key,'[jk]'))
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec "wincmd ".a:key
+    endif
+endfunction
+" 等同于 <C-w>h,j,k,l
+map <C-h> :call WinMove('h')<cr>  
+map <C-j> :call WinMove('j')<cr>
+map <C-k> :call WinMove('k')<cr>
+map <C-l> :call WinMove('l')<cr>
+let g:mkdp_path_to_chrome = "open -a Google\\ Chrome"
+

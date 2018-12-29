@@ -18,15 +18,33 @@
 ```bash
 # 安装V2ray教程:  https://233blog.com/post/16/
 sudo -i
+# 此脚本也可以安装ss
 bash <(curl -s -L https://233blog.com/v2ray.sh)
-
 #查看安装后的信息
 v2ray
 ```
+当然也可以通过[v2ray官网](https://www.v2ray.com/chapter_00/install.html)来安装:
+```bash
+# Debian GNU/Linux 9
+sudo -i 
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime               
+bash <(curl -L -s https://install.direct/go.sh)
+# v2ray配置生成器 链接
+https://intmainreturn0.com/v2ray-config-gen/
+# 复制得到的配置到下面的文件中
+vi /etc/v2ray/config.json
+sudo systemctl restart v2ray
+service v2ray status
 
-如果想单独安装SS,可以新创建一个实例,选择Debian GNU/Linux 8(jessie)启动磁盘
+# v2ray官网客户端
+https://github.com/Cenmrev/V2RayX/releases
+```
+
+如果想单独安装SS,可以新创建一个实例,选择Debian GNU/Linux 8(jessie)启动磁盘,已失效
 ```bash
 sudo -i
+apt --fix-broken install
+apt-get install -y git
 wget -N --no-check-certificate https://raw.githubusercontent.com/FunctionClub/YankeeBBR/master/bbr.sh && bash bbr.sh install
 # 蓝底窗口按TAB键选NO, 选择重启 Y
 # 重新连接SSH
