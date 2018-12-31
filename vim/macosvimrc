@@ -110,8 +110,8 @@ set runtimepath+=~/.vim/bundle/YouCompleteMe
 
 
 
-
-
+" 不知道什么原因在MacOS,反应好慢,即使设置了100ms,也要5s才显示修改内容提示
+let g:gitgutter_updatetime = 100
 
 " let g:ctrlsf_ackprg = 'awk'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -249,10 +249,10 @@ let g:ycm_seed_identifiers_with_syntax=1
 
 " Enable tabbing through list of results
 let g:ycm_semantic_triggers =  {
-		\   'javascript': ['.', 're!(?=[a-zA-Z]{3,4})'],
-		\ 'scss,css': [ 're!^\s{2,4}', 're!:\s+' ],
-		\ 'html': ['<', '"', '</', ' '],
-		\ }
+        \   'javascript': ['.', 're!(?=[a-zA-Z]{3,4})'],
+        \ 'scss,css': [ 're!^\s{2,4}', 're!:\s+' ],
+        \ 'html': ['<', '"', '</', ' '],
+        \ }
 
 "上下左右键的行为 会显示其他信息
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
@@ -283,4 +283,3 @@ map <C-j> :call WinMove('j')<cr>
 map <C-k> :call WinMove('k')<cr>
 map <C-l> :call WinMove('l')<cr>
 let g:mkdp_path_to_chrome = "open -a Google\\ Chrome"
-
