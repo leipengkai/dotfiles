@@ -3,15 +3,16 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 定义快捷键的前缀，即<Leader>
 let mapleader=";"
-" 关闭兼容模式
+" 关闭兼容模式,不与Vi兼容(采用 Vim 自己的操作命令)
 set nocompatible 
 " 开启文件类型侦测
 filetype on
-" 根据侦测到的不同类型加载对应的插件
+" 根据侦测到的不同类型加载对应的插件, 如果编辑的是.py文件,Vim 就是会找Python的缩进规则~/.vim/indent/python.vim
 filetype plugin on
 " 自适应不同语言的智能缩进
 filetype indent on
 autocmd BufWritePost $MYVIMRC source $MYVIMRC " 让配置变更立即生效
+
 
 set encoding=utf-8
 " :set ts=4  
@@ -21,22 +22,44 @@ set expandtab " 将制表符替换为空格
 " set softtabstop=4 " 把连续数量的空格视为一个制表符
 
 set hlsearch " 搜索时高亮显示被找到的文本
-set incsearch " 开启实时搜索功能
+set incsearch " 开启实时搜索功能,每输入一个字符,就自动跳到第一个匹配的结果
+
 set ignorecase " 搜索时大小写不敏感
 set wildmenu " vim 自身命令行模式智能补全
 
-set ruler " 显示光标当前位置
-set number
-" 总是显示状态栏
-set laststatus=2
+" set ruler " 显示光标当前位置
+set number " 显示行号
+set relativenumber "显示光标所在的当前行的行号,其他行都为相对于该行的相对行号
+set laststatus=2 " 总是显示状态栏
+set cursorline " 光标所在的当前行高亮
+hi CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+" hi CursorLine term=bold cterm=bold guibg=red " guibg=Grey40
+" hi Cursor   cterm=NONE ctermbg=red " 光标不由vim控制
+" hi Search         guifg=NONE        guibg=#2F2F00     gui=underline ctermfg=NONE        ctermbg=NONE	      cterm=underline
+" hi Comment cterm=underline ctermfg=red ctermbg=blue  " 定义蓝底红字并使用下划线来显示注释
+" highlight Constant ctermbg=Blue
+" vim 支持三种终端:term,黑白终端. cterm,彩色终端:gui,Gvim窗口
+" term:可以定义其字体显示为:bold,underline,reverse,italic或standout
+" cterm 表示为原生vim设置样式,设置为NONE表示可以自定义设置
+" ctermbg,ctermfg 设置终端vim的背景色,前景色
+" guibg,guifg 设置gvim的背景色和前景色
+
+
+set scrolloff=3 " 垂直滚动时,光标距离顶部/底部的位置 3L
+" set sidescrolloff=15
+"set showmatch matchtime=0  
+
 set backspace=2 " 解决MacOS使用backspace,删除文字时有警告声的问题
+" set spell spelllang=en_us " 打开英语单词的拼写检查
+set autochdir " 自动切换工作目录
+
 
 
 
 
 " 主题风格 配色方案
-"set background=dark
-"colorscheme solarized
+" set background=dark
+" colorscheme solarized
 " colorscheme molokai
 " colorscheme phd
 " 美化状态栏
@@ -44,19 +67,11 @@ let g:Powerline_colorscheme='solarized256'
 
 
 
-syntax enable " 开启语法高亮功能
-syntax on " 允许用指定语法高亮配色方案替换默认方案
+" syntax enable " 开启语法高亮功能
+syntax on " 打开语法高亮.自动识别代码,使用多种颜色显示
+set showcmd " 显示命令模式下输入的字符 yaw
 
-" 环境恢复
-" 设置环境保存项
-set sessionoptions="blank,buffers,globals,localoptions,tabpages,sesdir,folds,help,options,resize,winpos,winsize"
-" 保存 undo 历史
-set undodir=~/.undo_history/
-set undofile
-" 保存快捷键
-map <leader>ss :mksession! my.vim<cr> :wviminfo! my.viminfo<cr>
-" 恢复快捷键
-map <leader>rs :source my.vim<cr> :rviminfo my.viminfo<cr>
+
 
 " load plugins from vundle
 "Vundle Section Start
@@ -83,8 +98,15 @@ Plugin 'tomasr/molokai'
 Plugin 'vim-scripts/phd'
 
 
+Plugin 'mhinz/vim-startify' " vim开始窗口并显示最近打开的文件
+Plugin 'easymotion/vim-easymotion'  " 移动命令的升级(w,b,hjkl,ge,e)
 
-Plugin 'Lokaltog/vim-powerline' " 美化状态栏
+" Plugin 'Lokaltog/vim-powerline' " 美化状态栏
+Plugin 'vim-airline/vim-airline' " 美化状态栏
+Plugin 'vim-airline/vim-airline-themes' " 状态栏样式
+Plugin 'ryanoasis/vim-devicons'  " 图标字体
+Plugin 'tiagofumo/vim-nerdtree-syntax-highlight' " 导航树的语法高亮
+
 Plugin 'dyng/ctrlsf.vim' " 内容查找工具 apt install ack
 Plugin 'terryma/vim-multiple-cursors' " 内容替换
 Plugin 'scrooloose/nerdcommenter' " 代码注释
@@ -92,7 +114,8 @@ Plugin 'scrooloose/nerdcommenter' " 代码注释
 Plugin 'iamcco/markdown-preview.vim'
 
 
-
+Plugin 'mattn/emmet-vim'
+Plugin 'pangloss/vim-javascript'
 
 
 
@@ -174,6 +197,72 @@ let g:SignatureMap = {
 " 插件在工程内全局查找光标所在关键字,设置快捷键.快捷键速记法：search in  project
 nnoremap <Leader>sp :CtrlSF<CR>
 
+" vim-easymotion ----------------------------------------
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+" nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
+
+
+
+"上下左右键的行为 会显示其他信息
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Window movement shortcuts
+" move to the window in the direction shown, or create a new window
+function! WinMove(key)
+    let t:curwin = winnr()
+    exec "wincmd ".a:key
+    if (t:curwin == winnr())
+        if (match(a:key,'[jk]'))
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec "wincmd ".a:key
+    endif
+endfunction
+" 等同于 <C-w>h,j,k,l
+map <C-h> :call WinMove('h')<cr>  
+map <C-j> :call WinMove('j')<cr>
+map <C-k> :call WinMove('k')<cr>
+map <C-l> :call WinMove('l')<cr>
+
+" insert model move cursor,为了方便就不再映射正常模式下的大写字母的移动了
+"inoremap <C-h> <C-o>h
+"inoremap <C-j> <C-o>j
+"inoremap <C-k> <C-o>k
+"inoremap <C-l> <C-o>l
+"inoremap <C-f> <C-o>f
+"inoremap <C-t> <C-o>t
+"inoremap <C-b> <C-o>b
+"inoremap <C-w> <C-o>w
+"inoremap <C-e> <C-o>e
+
+
+let g:mkdp_path_to_chrome = "open -a Google\\ Chrome"
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" YouCompleteMe,不使用就注释掉
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " 模板补全
 " UltiSnips 的 tab 键与 YCM 冲突，重新设定
 " let g:UltiSnipsSnippetDirectories=["mysnippets"]
@@ -251,38 +340,9 @@ let g:ycm_seed_identifiers_with_syntax=1
 
 " Enable tabbing through list of results
 let g:ycm_semantic_triggers =  {
-		\   'javascript': ['.', 're!(?=[a-zA-Z]{3,4})'],
-		\ 'scss,css': [ 're!^\s{2,4}', 're!:\s+' ],
-		\ 'html': ['<', '"', '</', ' '],
-		\ }
+        \   'javascript': ['.', 're!(?=[a-zA-Z]{3,4})'],
+        \ 'scss,css': [ 're!^\s{2,4}', 're!:\s+' ],
+        \ 'html': ['<', '"', '</', ' '],
+        \ }
 
-"上下左右键的行为 会显示其他信息
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
-inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Window movement shortcuts
-" move to the window in the direction shown, or create a new window
-function! WinMove(key)
-    let t:curwin = winnr()
-    exec "wincmd ".a:key
-    if (t:curwin == winnr())
-        if (match(a:key,'[jk]'))
-            wincmd v
-        else
-            wincmd s
-        endif
-        exec "wincmd ".a:key
-    endif
-endfunction
-" 等同于 <C-w>h,j,k,l
-map <C-h> :call WinMove('h')<cr>  
-map <C-j> :call WinMove('j')<cr>
-map <C-k> :call WinMove('k')<cr>
-map <C-l> :call WinMove('l')<cr>
-let g:mkdp_path_to_chrome = "open -a Google\\ Chrome"
 
