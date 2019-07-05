@@ -33,6 +33,22 @@ set relativenumber "显示光标所在的当前行的行号,其他行都为相�
 set laststatus=2 " 总是显示状态栏
 set cursorline " 光标所在的当前行高亮
 hi CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+
+hi CursorLine   cterm=NONE ctermbg=darkyellow ctermfg=white 
+hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white
+
+
+"highlight iCursor guifg=white guibg=steelblue
+"set guicursor=n-v-c:block-Cursor
+"set guicursor+=i:ver100-iCursor
+"set guicursor+=n-v-c:blinkon0
+"set guicursor+=i:blinkwait10
+
+
+"hi CursorLine guifg=NONE guibg=#002943
+"hi Cursor guifg=#F8F8F8 guibg=#A7A7A7
+"hi CursorIM guifg=#F8F8F8 guibg=#002947"#5F5A60
+"
 " hi CursorLine term=bold cterm=bold guibg=red " guibg=Grey40
 " hi Cursor   cterm=NONE ctermbg=red " 光标不由vim控制
 " hi Search         guifg=NONE        guibg=#2F2F00     gui=underline ctermfg=NONE        ctermbg=NONE	      cterm=underline
@@ -83,6 +99,7 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim' " 插件管理
 Plugin 'scrooloose/nerdtree' " 文件树 NERDTreeToggle F3
+Plugin 'Xuyuanp/nerdtree-git-plugin' " nerdtree 也显示git信息
 Plugin 'majutsushi/tagbar' " 导航橍 TagbarToggle F4
 Plugin 'jiangmiao/auto-pairs' " 另一半符号的自动补全
 
@@ -165,6 +182,49 @@ map <F4> :TagbarToggle<CR>
 " autofocus on tagbar open
 let g:tagbar_autofocus = 1
 
+
+" AddHeader ------------------------
+map <F5> ms:call AddAuthor()<cr>'s
+
+function AddAuthor()
+        let n=1
+        while n < 5
+                let line = getline(n)
+                if line =~'^\s*\*\s*\S*Last\s*modified\s*:\s*\S*.*$'
+                        call UpdateTitle()
+                        return
+                endif
+                let n = n + 1
+        endwhile
+        call AddTitle()
+endfunction
+
+function UpdateTitle()
+        normal m'
+        execute '/* Last modified\s*:/s@:.*$@\=strftime(": %Y-%m-%d %H:%M")@'
+        normal "
+        normal mk
+        execute '/* Filename\s*:/s@:.*$@\=": ".expand("%:t")@'
+        execute "noh"
+        normal 'k
+        echohl WarningMsg | echo "Successful in updating the copy right." | echohl None
+endfunction
+
+function AddTitle()
+        call append(0,"#!/usr/bin/env python")
+        call append(1,"# -*- coding:utf-8 -*-")
+        call append(2,'"""')
+        call append(3,"@Author        : parker")
+        call append(4,"@Email         : parker.lei@ecoprint.tech")
+        call append(5,"@Last modified : ".strftime("%Y-%m-%d %H:%M"))
+        call append(6,"@Filename      : ".expand("%:t"))
+        call append(7,"@Description   : ")
+        call append(8,'"""')
+        echohl WarningMsg | echo "Successful in adding the copyright." | echohl None
+endfunction
+
+" AddHeader ------------------------
+
 " nmap、imap、vmap来定义映射仅在normal、insert、visual模式有效
 
 " vim-signature ---------------------------------
@@ -243,6 +303,25 @@ map <C-h> :call WinMove('h')<cr>
 map <C-j> :call WinMove('j')<cr>
 map <C-k> :call WinMove('k')<cr>
 map <C-l> :call WinMove('l')<cr>
+
+
+function! Zoom ()
+    " check if is the zoomed state (tabnumber > 1 && window == 1)
+    if tabpagenr('$') > 1 && tabpagewinnr(tabpagenr(), '$') == 1
+        let l:cur_winview = winsaveview()
+        let l:cur_bufname = bufname('')
+        tabclose
+
+        " restore the view
+        if l:cur_bufname == bufname('')
+            call winrestview(cur_winview)
+        endif
+    else
+        tab split
+    endif
+endfunction
+
+nmap <leader>z :call Zoom()<CR>
 
 " insert model move cursor,为了方便就不再映射正常模式下的大写字母的移动了
 "inoremap <C-h> <C-o>h
