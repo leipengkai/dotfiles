@@ -32,10 +32,12 @@ set number " 显示行号
 set relativenumber "显示光标所在的当前行的行号,其他行都为相对于该行的相对行号
 set laststatus=2 " 总是显示状态栏
 set cursorline " 光标所在的当前行高亮
-hi CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+hi CursorLine   cterm=NONE ctermbg=green ctermfg=brown guibg=NONE guifg=NONE
 
-hi CursorLine   cterm=NONE ctermbg=darkyellow ctermfg=white 
-hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white
+" hi CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+
+" hi CursorLine   cterm=NONE ctermbg=darkyellow ctermfg=green guibg=NONE guifg=NONE
+
 
 
 "highlight iCursor guifg=white guibg=steelblue
@@ -87,6 +89,63 @@ let g:Powerline_colorscheme='solarized256'
 syntax on " 打开语法高亮.自动识别代码,使用多种颜色显示
 set showcmd " 显示命令模式下输入的字符 yaw
 
+"Rename tabs to show tab# and # of viewports
+if exists("+showtabline")
+    function! MyTabLine()
+        let s = ''
+        let wn = ''
+        let t = tabpagenr()
+        let i = 1
+        while i <= tabpagenr('$')
+            let buflist = tabpagebuflist(i)
+            let winnr = tabpagewinnr(i)
+            let s .= '%' . i . 'T'
+            let s .= (i == t ? '%1*' : '%2*')
+            let s .= ' '
+            let wn = tabpagewinnr(i,'$')
+
+            let s .= (i== t ? '%#TabNumSel#' : '%#TabNum#')
+            let s .= i
+            if tabpagewinnr(i,'$') > 1
+                let s .= '.'
+                let s .= (i== t ? '%#TabWinNumSel#' : '%#TabWinNum#')
+                let s .= (tabpagewinnr(i,'$') > 1 ? wn : '')
+            end
+
+            let s .= ' %*'
+            let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
+            let bufnr = buflist[winnr - 1]
+            let file = bufname(bufnr)
+            let buftype = getbufvar(bufnr, 'buftype')
+            if buftype == 'nofile'
+                if file =~ '\/.'
+                    let file = substitute(file, '.*\/\ze.', '', '')
+                endif
+            else
+                let file = fnamemodify(file, ':p:t')
+            endif
+            if file == ''
+                let file = '[No Name]'
+            endif
+            let s .= file
+            let s .= (i == t ? '%m' : '')
+            let i = i + 1
+        endwhile
+        let s .= '%T%#TabLineFill#%='
+        return s
+    endfunction
+    set stal=2
+    set tabline=%!MyTabLine()
+endif
+
+set tabpagemax=15
+hi TabLineSel term=bold cterm=bold ctermfg=16 ctermbg=229
+hi TabWinNumSel term=bold cterm=bold ctermfg=90 ctermbg=229
+hi TabNumSel term=bold cterm=bold ctermfg=16 ctermbg=229
+
+hi TabLine term=underline ctermfg=16 ctermbg=145
+hi TabWinNum term=bold cterm=bold ctermfg=90 ctermbg=145
+hi TabNum term=bold cterm=bold ctermfg=16 ctermbg=145
 
 
 " load plugins from vundle
@@ -100,29 +159,29 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim' " 插件管理
 Plugin 'scrooloose/nerdtree' " 文件树 NERDTreeToggle F3
 Plugin 'Xuyuanp/nerdtree-git-plugin' " nerdtree 也显示git信息
+Plugin 'tiagofumo/vim-nerdtree-syntax-highlight' " 导航树的语法高亮
 Plugin 'majutsushi/tagbar' " 导航橍 TagbarToggle F4
 Plugin 'jiangmiao/auto-pairs' " 另一半符号的自动补全
 
 Plugin 'tpope/vim-fugitive' " the ultimate git helper e.x :Gstatus
 "Plugin 'motemen/git-vim' " git status
-Plugin 'airblade/vim-gitgutter' " 高亮当前修改
+Plugin 'airblade/vim-gitgutter' " 显示git的修改状态 
 
-Plugin 'scrooloose/syntastic' " 语法检查/高亮
+"Plugin 'scrooloose/syntastic' " 语法检查/高亮
 Plugin 'kshenoy/vim-signature' " 实现可视化的书签 e.x:mm `m
 " 主题风格
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomasr/molokai'
-Plugin 'vim-scripts/phd'
+"Plugin 'altercation/vim-colors-solarized'
+"Plugin 'tomasr/molokai'
+"Plugin 'vim-scripts/phd'
 
 
 Plugin 'mhinz/vim-startify' " vim开始窗口并显示最近打开的文件
-Plugin 'easymotion/vim-easymotion'  " 移动命令的升级(w,b,hjkl,ge,e)
+Plugin 'easymotion/vim-easymotion'  " 移动命令的升级(w,b,hjkl,ge,e),可跨窗口
 
 " Plugin 'Lokaltog/vim-powerline' " 美化状态栏
 Plugin 'vim-airline/vim-airline' " 美化状态栏
 Plugin 'vim-airline/vim-airline-themes' " 状态栏样式
 Plugin 'ryanoasis/vim-devicons'  " 图标字体
-Plugin 'tiagofumo/vim-nerdtree-syntax-highlight' " 导航树的语法高亮
 
 Plugin 'dyng/ctrlsf.vim' " 内容查找工具 apt install ack
 Plugin 'terryma/vim-multiple-cursors' " 内容替换
@@ -131,7 +190,7 @@ Plugin 'scrooloose/nerdcommenter' " 代码注释
 Plugin 'iamcco/markdown-preview.vim'
 
 
-Plugin 'mattn/emmet-vim'
+Plugin 'mattn/emmet-vim' " 快速生成html
 Plugin 'pangloss/vim-javascript'
 
 
@@ -153,7 +212,9 @@ set runtimepath+=~/.vim/bundle/YouCompleteMe
 
 
 " 不知道什么原因在MacOS,反应好慢,即使设置了100ms,也要5s才显示修改内容提示
-let g:gitgutter_updatetime = 100
+let g:gitgutter_updatetime = 10
+let g:ruby_path = system('echo $HOME/.rbenv/shims')
+
 
 " let g:ctrlsf_ackprg = 'awk'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -423,5 +484,4 @@ let g:ycm_semantic_triggers =  {
         \ 'scss,css': [ 're!^\s{2,4}', 're!:\s+' ],
         \ 'html': ['<', '"', '</', ' '],
         \ }
-
 
